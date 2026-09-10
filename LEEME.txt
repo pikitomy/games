@@ -1,0 +1,294 @@
+╔══════════════════════════════════════════════════════════════╗
+║                       PIKY'S GAMES!                         ║
+║                  Fydito's Family Arcade                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+Versión inicial: Septiembre de 2026
+Idea, diseño y desarrollo: Jordan Molinari
+Realizado con asistencia de ChatGPT / OpenAI
+
+--------------------------------------------------------------
+¿QUÉ ES PIKY'S GAMES?
+--------------------------------------------------------------
+
+Piky's GAMES! es una pequeña colección de videojuegos realizados
+en HTML, CSS y JavaScript, inspirados en algunos de los grandes
+clásicos de los videojuegos y las máquinas arcade.
+
+El proyecto nació en septiembre de 2026 casi como un juego en sí
+mismo: la idea era recrear videojuegos simples y retro para jugar
+en familia, pero reemplazando sus personajes y situaciones por
+personajes de nuestra propia casa.
+
+Así aparecieron Tomy, Valen, Caritolina y Piky.
+
+Cada juego fue pensado, probado, modificado y vuelto a probar en
+casa. Muchas de las ideas de jugabilidad surgieron directamente
+mientras jugábamos: cambiar controles, agregar dos jugadores,
+incorporar poderes, modificar dificultades o simplemente hacer
+que algo fuera más divertido.
+
+No pretende ser una colección comercial ni una reproducción
+exacta de los juegos originales.
+
+Es nuestro pequeño arcade familiar.
+
+
+--------------------------------------------------------------
+LOS PERSONAJES
+--------------------------------------------------------------
+
+TOMY
+El jugador principal de varias de estas aventuras, representado
+por su avatar de anteojos rojos.
+
+VALEN
+Nuestro viejo y querido osito de peluche, convertido acá en
+jugador de Pong, compañero de aventuras y defensor de la casa
+contra invasiones extraterrestres.
+
+CARITOLINA
+Avatar inspirado en Caro, con su característico ambo azul y
+fucsia. Protagoniza el juego donde, como suele ocurrir en casa,
+hay que conseguir que cada cosa termine finalmente en su lugar.
+
+PIKY
+La víbora verde de anteojos rojos y mascota de esta colección.
+También es quien terminó dándole nombre a todo el proyecto.
+
+
+--------------------------------------------------------------
+LOS JUEGOS
+--------------------------------------------------------------
+
+1. PIKY'S SNAKE
+   Archivo: snake.html
+
+Inspirado en el clásico Snake.
+
+Hay que recorrer el tablero, comer frutas y evitar paredes,
+obstáculos, el propio cuerpo y, cuando corresponde, al segundo
+jugador.
+
+A medida que avanza la partida aparecen obstáculos y distintos
+power-ups que pueden modificar el tamaño o la velocidad de la
+víbora.
+
+Modos:
+
+1 JUGADOR
+- WASD o Flechas: mover a Piky.
+- P: pausa.
+- ESC: volver.
+
+2 JUGADORES
+- Jugador 1 / Piky (verde): W, A, S, D.
+- Jugador 2 (rosa neón): Flechas.
+- P: pausa.
+- ESC: volver.
+
+En el modo de dos jugadores aparecen dos frutas o píldoras
+simultáneamente para mantener el ritmo de la partida.
+
+
+2. TOMY VS. VALEN PONG CHALLENGE!
+   Archivo: pong.html
+
+Nuestra versión familiar del clásico Pong.
+
+Tomy y Valen se enfrentan en un partido rápido de estilo arcade.
+
+Cada pelota perdida otorga UN punto al rival.
+Después del punto aparece una nueva pelota y el partido continúa.
+El primero en llegar a 7 puntos gana.
+
+1 JUGADOR
+- Tomy: W/S o Flechas Arriba/Abajo.
+- Valen: controlado por la CPU.
+
+2 JUGADORES
+- Tomy: W/S.
+- Valen: Flechas Arriba/Abajo.
+
+Otros controles:
+- P: pausa.
+- ESC: volver al menú.
+
+Incluye efectos de sonido y pequeñas melodías sintetizadas
+de estilo 8-bit.
+
+
+3. TOMY'S BREAKOUT
+   Archivo: breakout.html
+
+Inspirado en Breakout y en los clásicos juegos de romper bloques.
+
+Tomy y Valen tienen una misión sencilla:
+ROMPER LA PARED.
+
+La pelota rebota contra la paleta y destruye progresivamente
+los bloques del escenario.
+
+En niveles posteriores aparecen distintos premios y poderes,
+manteniendo la mecánica simple y rápida de los arcades clásicos.
+
+Los controles correspondientes aparecen dentro del propio juego.
+
+
+4. CARITOLINA'S TIDY UP!
+   Archivo: sokoban.html
+
+Inspirado en el clásico Sokoban.
+
+Cada nivel representa una parte de la casa.
+
+Caritolina debe empujar los objetos hasta los lugares marcados,
+pero las paredes, pasillos y obstáculos hacen que el orden en que
+se realizan los movimientos sea fundamental.
+
+No importa qué objeto llegue a cada marca:
+lo importante es conseguir que TODAS las cosas queden en su lugar.
+
+Como en Sokoban, un movimiento mal pensado puede dejar un objeto
+atrapado y obligarnos a reiniciar el nivel.
+
+Controles:
+- Flechas: mover a Caritolina.
+- R: reiniciar el nivel.
+- P: pausa.
+- ESC: volver.
+
+
+5. VALEN CONTRA LOS MARCIANOS
+   Archivo: invaders.html
+
+Inspirado en Space Invaders.
+
+Valen tiene una responsabilidad fundamental:
+DEFENDER LA CASA.
+
+Desde el jardín debe enfrentarse a distintas oleadas de marcianos
+antes de que consigan avanzar sobre nuestro hogar.
+
+El juego conserva la idea básica de los antiguos shooters arcade:
+moverse, disparar, protegerse y sobrevivir a las distintas oleadas.
+
+Los controles correspondientes aparecen dentro del juego.
+
+
+--------------------------------------------------------------
+PORTADA E ÍNDICE GENERAL
+--------------------------------------------------------------
+
+Archivo principal:
+index.html
+
+Imagen:
+portada_inicio.png
+
+El índice reúne todos los juegos de Piky's GAMES! dentro de un
+mismo directorio.
+
+La portada general representa a los personajes reunidos frente a
+un televisor CRT, como homenaje a la forma en que muchos de
+nosotros conocimos los videojuegos durante los años 80 y 90.
+
+La música del menú es generada sintéticamente mediante JavaScript
+y Web Audio API. No utiliza un archivo MP3 ni una grabación
+musical externa.
+
+
+--------------------------------------------------------------
+TECNOLOGÍA
+--------------------------------------------------------------
+
+Los juegos utilizan únicamente tecnologías estándar del navegador:
+
+- HTML5
+- CSS
+- JavaScript
+- Canvas
+- Web Audio API
+
+No necesitan instalación, servidor, base de datos ni conexión a
+Internet.
+
+Para jugar alcanza con abrir index.html en un navegador moderno.
+
+
+--------------------------------------------------------------
+¿DE DÓNDE SALE EL CÓDIGO?
+--------------------------------------------------------------
+
+El código de Piky's GAMES! fue desarrollado específicamente para
+este proyecto por Jordan Molinari con asistencia de ChatGPT,
+un sistema de inteligencia artificial de OpenAI.
+
+No se copiaron los códigos fuente originales de Snake, Pong,
+Breakout, Sokoban ni Space Invaders.
+
+Las mecánicas están inspiradas en conceptos clásicos ampliamente
+conocidos de la historia de los videojuegos, pero la implementación
+en HTML/CSS/JavaScript utilizada en este repositorio fue creada
+para este proyecto.
+
+Durante el desarrollo se realizaron numerosas pruebas y
+modificaciones manuales sobre el código generado, ajustando
+jugabilidad, controles, personajes, gráficos, niveles y reglas.
+
+
+--------------------------------------------------------------
+CÓDIGO ABIERTO
+--------------------------------------------------------------
+
+Este proyecto se publica en GitHub como código abierto con fines
+educativos, recreativos y experimentales.
+
+Podés estudiar el código, modificarlo y utilizarlo como punto de
+partida para tus propios proyectos, respetando los términos de la
+licencia incluida en este repositorio.
+
+Si vas a distribuir una versión modificada, siempre es lindo
+mencionar de dónde nació la idea.
+
+
+--------------------------------------------------------------
+¿PARA QUIÉN FUE HECHO?
+--------------------------------------------------------------
+
+Piky's GAMES! nació principalmente para Tomy y para jugar en
+familia.
+
+No nació como producto.
+
+Nació de sentarnos frente a una computadora, recordar los juegos
+con los que crecimos, inventar personajes, probar ideas,
+equivocarnos, corregirlas y volver a jugar.
+
+Tal vez por eso la mejor descripción del proyecto sea también
+la más sencilla:
+
+             PEQUEÑOS JUEGOS, GRANDES MOMENTOS.
+
+
+--------------------------------------------------------------
+CRÉDITOS
+--------------------------------------------------------------
+
+Idea, concepto y desarrollo:
+Jordan Molinari
+
+Pruebas, ideas y control de calidad:
+Tomy y familia
+
+Asistencia en programación y desarrollo:
+ChatGPT - OpenAI
+
+Desarrollado en:
+José C. Paz, Buenos Aires, Argentina
+
+Fecha:
+Septiembre de 2026
+
+                     FYDITO'S ARCADE
+                  Hecho en casa. ♥

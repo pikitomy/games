@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tomy vs. Valen Pong Challenge!</title>
+    <link rel="stylesheet" href="pong.css">
+</head>
+
+<body>
+    <section id="portada">
+        <img src="portada.png" alt="Tomy vs. Valen Pong Challenge">
+        <div class="pulsa">PRESIONÁ ESPACIO PARA COMENZAR</div>
+    </section>
+
+    <section id="menu" class="oculto panel">
+        <h1>TOMY VS. VALEN</h1>
+        <h2>PONG CHALLENGE!</h2>
+        <button data-modo="1">1 JUGADOR</button>
+        <button data-modo="2">2 JUGADORES</button>
+        <p>1 jugador: Tomy vs. Valen CPU</p>
+        <p>2 jugadores: Tomy W/S · Valen ↑/↓</p>
+        <small>ESC: volver</small>
+    </section>
+
+    <main id="juego" class="oculto">
+        <header><span>TOMY <b id="pt1">0</b></span><strong id="modoTxt"></strong><span><b id="pt2">0</b> VALEN</span></header>
+        <canvas id="canvas" width="960" height="600"></canvas>
+        <footer>Tomy: W/S · En 1 jugador también ↑/↓ · Valen: ↑/↓ · P: pausa · ESC: menú</footer>
+        <div id="fin" class="oculto"></div>
+    </main>
+    <script src="pong.js"></script>
+</body>
+
+</html>

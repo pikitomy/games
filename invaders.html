@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Valen contra los Marcianos</title>
+    <link rel="stylesheet" href="invaders.css">
+</head>
+
+<body>
+    <main id="app">
+        <section id="intro" class="screen intro">
+            <img src="valen_logo.png" class="logo" alt="Valen contra los Marcianos">
+            <div class="subtitle">DEFENDÉ LA CASA</div>
+            <div class="blink">PRESIONÁ ESPACIO PARA COMENZAR</div>
+        </section>
+
+        <section id="gameScreen" class="screen game hidden">
+            <header>
+                <div>PUNTOS <strong id="score">0</strong></div>
+                <div class="gameTitle">VALEN CONTRA LOS MARCIANOS</div>
+                <div>RÉCORD <strong id="highScore">0</strong></div>
+            </header>
+
+            <canvas id="game" width="900" height="600"></canvas>
+
+            <footer>
+                ← → / A D mover · ESPACIO disparar · P pausa · ESC portada
+            </footer>
+
+            <div id="overlay" class="overlay hidden">
+                <h1 id="overlayTitle">GAME OVER</h1>
+                <p id="overlayText"></p>
+                <button id="restart">JUGAR DE NUEVO</button>
+            </div>
+        </section>
+    </main>
+    <script src="invaders.js"></script>
+</body>
+
+</html>

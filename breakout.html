@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tomy's Breakout</title>
+    <link rel="stylesheet" href="breakout.css">
+</head>
+
+<body>
+
+    <section id="intro">
+        <img src="tomy_breakout_portada.png" alt="Tomy's Breakout">
+        <div class="start">PRESIONÁ ESPACIO PARA COMENZAR</div>
+    </section>
+
+    <main id="wrap" class="hidden">
+        <header>
+            <span>PUNTOS <b id="score">0</b></span>
+            <strong>TOMY'S BREAKOUT</strong>
+            <span>RÉCORD <b id="high">0</b>
+                </span></header>
+        <canvas id="game" width="900" height="600">
+
+                </canvas>
+        <footer>← → / A D mover · ESPACIO lanzar · P pausa · ESC portada</footer>
+    </main>
+
+    <script src="breakout.js"></script>
+</body>
+
+</html>

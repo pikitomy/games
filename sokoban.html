@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Caritolina's Tidy Up!</title>
+    <link rel="stylesheet" href="sokoban.css">
+</head>
+
+<body>
+    <section id="portada">
+        <img src="portada_caritolina.png" alt="Caritolina's Tidy Up!">
+        <div class="pulsa">PRESIONÁ ESPACIO PARA JUGAR</div>
+    </section>
+
+    <main id="juego" class="oculto">
+        <header>
+            <span id="nombreNivel">NIVEL</span>
+            <span>MOVIMIENTOS: <b id="movimientos">0</b></span>
+            <span>FALTAN: <b id="faltan">0</b></span>
+        </header>
+        <canvas id="canvas" width="768" height="576"></canvas>
+        <footer>FLECHAS / WASD: MOVER · R: REINICIAR · P: PAUSA · ESC: PORTADA</footer>
+        <div id="cartel" class="oculto"></div>
+    </main>
+    <script src="sokoban.js"></script>
+</body>
+
+</html>

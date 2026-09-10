@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Piky's Snake</title>
+    <link rel="stylesheet" href="snake.css">
+</head>
+
+<body>
+    <main class="arcade">
+        <section id="intro" class="screen intro">
+            <img src="snake_logo.png" class="logo" alt="Piky's Snake">
+            <div class="blink">PRESIONÁ ESPACIO PARA COMENZAR</div>
+        </section>
+
+        <section id="modeScreen" class="screen mode hidden">
+            <h1>PIKY'S SNAKE</h1>
+            <h2>¿CÓMO JUGAMOS?</h2>
+            <button id="onePlayer">1 JUGADOR</button>
+            <button id="twoPlayers">2 JUGADORES</button>
+            <p>1 jugador: WASD o Flechas</p>
+            <p>2 jugadores: Piky = WASD · Jugador 2 = Flechas</p>
+            <small>ESC = volver</small>
+        </section>
+
+        <section id="gameScreen" class="screen game hidden">
+            <header>
+                <div>PIKY <strong id="score">0</strong></div>
+                <div class="title">PIKY'S SNAKE</div>
+                <div id="p2Hud" class="hidden">J2 <strong id="score2">0</strong></div>
+                <div id="highHud">RÉCORD <strong id="highScore">0</strong></div>
+            </header>
+
+            <div class="status">
+                <span id="level">NIVEL 1</span>
+                <span id="effect"></span>
+            </div>
+
+            <canvas id="game" width="600" height="600"></canvas>
+            <footer id="controls">WASD / Flechas · P = pausa · ESC = volver</footer>
+
+            <div id="overlay" class="overlay hidden">
+                <h1 id="overlayTitle">GAME OVER</h1>
+                <p id="overlayText"></p>
+                <button id="restart">JUGAR DE NUEVO</button>
+                <button id="backMode">CAMBIAR MODO</button>
+            </div>
+        </section>
+    </main>
+    <script src="snake.js"></script>
+</body>
+
+</html>

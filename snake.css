@@ -1,0 +1,19 @@
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#020706;color:#eaffea;font-family:Consolas,"Courier New",monospace}
+body{min-height:100vh;display:grid;place-items:center;overflow:hidden}.arcade{width:min(94vw,760px)}
+.screen{position:relative}.intro{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;background:radial-gradient(circle,#0a2618 0,#020706 55%,#000 100%)}
+.logo{width:min(90vw,700px);max-height:78vh;object-fit:contain;filter:drop-shadow(0 0 24px #20ff74);animation:logoIntro .9s ease-out}
+.blink{font-size:clamp(14px,2.5vw,23px);color:#ffe54d;text-align:center;animation:blink 1s steps(2,end) infinite}
+.hidden{display:none!important}
+.mode{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;background:radial-gradient(circle,#102b1b,#020706 62%,#000)}
+.mode h1{font-size:52px;margin:0;color:#4cff82;text-shadow:0 0 18px #21ff70}.mode h2{margin:0 0 15px;color:#ffe54d}
+.mode p{margin:2px;color:#baf5ca}.mode small{color:#7cbf8e;margin-top:10px}
+.game{border:2px solid #1ed760;background:#06100b;box-shadow:0 0 35px #0a5}
+header,footer,.status{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;background:#07150d;color:#aef6c5}
+header strong{color:#ffe54d}.title{color:#4cff82;font-weight:900}.status{padding:5px 16px;background:#041009;font-size:12px;color:#6fff9d;min-height:25px}.status #effect{color:#ffe54d}
+footer{justify-content:center;font-size:13px}canvas{display:block;width:100%;height:auto;background:#03100a}
+.overlay{position:absolute;inset:73px 0 38px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000d;text-align:center}
+.overlay h1{font-size:clamp(36px,8vw,70px);margin:0;color:#ff4c4c;text-shadow:0 0 18px #f00}.overlay p{font-size:20px;color:#ffe54d}
+button{font:700 18px Consolas;padding:13px 22px;border:2px solid #4cff82;background:#07150d;color:#4cff82;cursor:pointer;min-width:220px}
+button:hover{background:#4cff82;color:#041008}.mode button:nth-of-type(2){border-color:#ff3adf;color:#ff3adf}.mode button:nth-of-type(2):hover{background:#ff3adf;color:#160011}
+#backMode{border-color:#ff3adf;color:#ff3adf;margin-top:4px}#backMode:hover{background:#ff3adf;color:#160011}
+@keyframes logoIntro{0%{opacity:0;transform:scale(.8)}70%{opacity:1;transform:scale(1.06)}100%{transform:scale(1)}}@keyframes blink{50%{opacity:.2}}
