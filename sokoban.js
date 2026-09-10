@@ -178,7 +178,7 @@ function dibujar(){
 document.addEventListener("keydown",e=>{
  if(!portada.classList.contains("oculto")&&(e.code=="Space"||e.code=="Enter")){e.preventDefault();portada.classList.add("oculto");juego.classList.remove("oculto");jugando=true;cargar(0);return}
  if(!jugando&&portada.classList.contains("oculto")&&e.code=="Space"){e.preventDefault();if(nivel>=niveles.length){juego.classList.add("oculto");portada.classList.remove("oculto")}else siguiente();return}
- if(e.code=="Escape"){jugando=false;juego.classList.add("oculto");portada.classList.remove("oculto");return}
+ if(e.code=="Escape"){if(!portada.classList.contains("oculto")){window.location.href="index.html";return} jugando=false;juego.classList.add("oculto");portada.classList.remove("oculto");return}
  if(e.code=="KeyR"&&nivel<niveles.length){jugando=true;cargar(nivel);return}
  if(e.code=="KeyP"&&jugando){pausa=!pausa;dibujar();return}
  let d={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]}[e.code];

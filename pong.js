@@ -112,7 +112,7 @@ document.addEventListener('keydown',e=>{
  if(!portada.classList.contains('oculto')&&(e.code==='Space'||e.code==='Enter')){e.preventDefault();portada.classList.add('oculto');menu.classList.remove('oculto');return}
  keys[e.code]=true;
  if(e.code==='KeyP'&&run){pausa=!pausa;draw()}
- if(e.code==='Escape'){if(!juego.classList.contains('oculto'))showMenu();else if(!menu.classList.contains('oculto')){menu.classList.add('oculto');portada.classList.remove('oculto')}}
+ if(e.code==='Escape'){if(!juego.classList.contains('oculto'))showMenu();else if(!menu.classList.contains('oculto')){menu.classList.add('oculto');portada.classList.remove('oculto')}else if(!portada.classList.contains('oculto')){window.location.href='index.html'}}
 });
 document.addEventListener('keyup',e=>keys[e.code]=false);
 document.querySelectorAll('[data-modo]').forEach(b=>b.onclick=()=>start(+b.dataset.modo));

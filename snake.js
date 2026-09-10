@@ -222,6 +222,7 @@ function setDirection(player,x,y){
  }
 }
 document.addEventListener("keydown",e=>{
+ if(!intro.classList.contains("hidden")&&e.code==="Escape"){window.location.href="index.html";return}
  if(!intro.classList.contains("hidden")&&(e.code==="Space"||e.code==="Enter")){e.preventDefault();showModes();return}
  if(!modeScreen.classList.contains("hidden")&&e.code==="Escape"){modeScreen.classList.add("hidden");intro.classList.remove("hidden");return}
  if(!gameScreen.classList.contains("hidden"))e.preventDefault();

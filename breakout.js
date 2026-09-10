@@ -34,5 +34,5 @@ function gameOver(){running=false;if(score>high){high=score;localStorage.setItem
 function showIntro(){running=false;wrap.classList.add("hidden");intro.classList.remove("hidden")}
 function loop(){if(!running)return;if(!paused)update();draw();requestAnimationFrame(loop)}
 function start(){intro.classList.add("hidden");wrap.classList.remove("hidden");reset()}
-document.addEventListener("keydown",e=>{if(!running&&(e.code==="Space"||e.code==="Enter")&&!intro.classList.contains("hidden")){e.preventDefault();start();return}keys[e.code]=true;if(e.code==="Space"&&running){e.preventDefault();launched=true}if(e.code==="KeyP"&&running)paused=!paused;if(e.code==="Escape"&&running)showIntro()});
+document.addEventListener("keydown",e=>{if(!running&&(e.code==="Space"||e.code==="Enter")&&!intro.classList.contains("hidden")){e.preventDefault();start();return}keys[e.code]=true;if(e.code==="Space"&&running){e.preventDefault();launched=true}if(e.code==="KeyP"&&running)paused=!paused;if(e.code==="Escape"){if(running)showIntro();else if(!intro.classList.contains("hidden"))window.location.href="index.html"}});
 document.addEventListener("keyup",e=>keys[e.code]=false);

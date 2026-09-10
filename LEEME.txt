@@ -292,3 +292,8 @@ Septiembre de 2026
 
                      FYDITO'S ARCADE
                   Hecho en casa. ♥
+
+ACTUALIZACIÓN 10/09/2026
+- ESC desde la portada de cualquiera de los juegos vuelve al índice general.
+- ESC durante una partida conserva el comportamiento de volver primero a la portada/menú del juego.
+- El índice general incorpora miniaturas de las portadas de los cinco juegos.

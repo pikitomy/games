@@ -1,18 +1,526 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Piky's GAMES!</title>
-<style>*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#02030a;font-family:Consolas,monospace;color:white}#splash{position:fixed;inset:0;background:#000 url("portada_inicio.png") center/contain no-repeat;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4vh}button{border:2px solid #58eaff;background:#050817dd;color:#fff;padding:14px 28px;font:bold 18px Consolas;cursor:pointer;box-shadow:0 0 18px #29dfff}#start{animation:b 1s steps(2) infinite}#menu{display:none;position:fixed;inset:0;background:radial-gradient(circle,#17204a,#040511 70%);text-align:center;padding:5vh 3vw}h1{font-size:clamp(42px,8vw,88px);margin:0 0 3vh;color:#ffe13b;text-shadow:5px 5px #ff3a5f,9px 9px #2ccfff}.grid{max-width:1000px;margin:auto;display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:16px}.grid a{display:block;text-decoration:none;color:#fff;background:#0b1027;border:3px solid #2de0ff;padding:20px;font-size:22px;font-weight:bold;box-shadow:5px 5px 0 #ff3c9e;transition:.12s}.grid a:hover{transform:translate(-2px,-2px);background:#16204b}.grid a:last-child{grid-column:1/-1}small{display:block;margin-top:3vh;color:#9aa8d8}#sound{position:fixed;right:18px;bottom:15px;padding:8px 12px}@keyframes b{50%{opacity:.35}}@media(max-width:650px){.grid{grid-template-columns:1fr}.grid a:last-child{grid-column:auto}}</style></head>
-<body><section id="splash"><button id="start">PRESIONÁ ESPACIO PARA ENTRAR</button></section>
-<section id="menu"><h1>PIKY'S GAMES!</h1><div class="grid">
-<a href="snake.html">🐍 PIKY'S SNAKE</a><a href="pong.html">🏓 TOMY VS. VALEN PONG</a><a href="breakout.html">🧱 TOMY'S BREAKOUT</a><a href="sokoban.html">🏠 CARITOLINA'S TIDY UP</a><a href="invaders.html">👾 VALEN CONTRA LOS MARCIANOS</a>
-</div><small>FYDITO'S ARCADE · HECHO EN CASA · 2026</small></section><button id="sound" hidden>🔊 MÚSICA</button>
-<script>
-let ac,master,playing=false,step=0,timer;
-const bass=[110,110,146.83,110,164.81,146.83,98,110],arp=[440,554.37,659.25,880,659.25,554.37,493.88,659.25,523.25,659.25,783.99,1046.5,783.99,659.25,587.33,783.99];
-function tone(f,d=.075,t="square",v=.035){let o=ac.createOscillator(),g=ac.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g);g.connect(master);o.start();o.stop(ac.currentTime+d)}
-function noise(){let b=ac.createBuffer(1,ac.sampleRate*.035,ac.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;let s=ac.createBufferSource(),g=ac.createGain();s.buffer=b;g.gain.value=.015;g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.035);s.connect(g);g.connect(master);s.start()}
-function beat(){if(!playing)return;let i=step%16;tone(arp[i],.065,"square",.025);if(i%2===0)tone(bass[Math.floor(i/2)],.12,"sawtooth",.025);if(i%4===0){tone(55,.06,"sine",.05);noise()}if(i%4===2)noise();step++}
-function startMusic(){if(!ac){ac=new(window.AudioContext||window.webkitAudioContext)();master=ac.createGain();master.gain.value=.7;master.connect(ac.destination)}ac.resume();playing=true;clearInterval(timer);timer=setInterval(beat,105);beat()}
-function stopMusic(){playing=false;clearInterval(timer)}
-function enter(){document.querySelector("#splash").style.display="none";document.querySelector("#menu").style.display="block";document.querySelector("#sound").hidden=false;startMusic()}
-start.onclick=enter;document.addEventListener("keydown",e=>{if((e.code==="Space"||e.code==="Enter")&&splash.style.display!=="none"){e.preventDefault();enter()}});
-sound.onclick=e=>{if(playing){stopMusic();e.target.textContent="🔇 MÚSICA"}else{startMusic();e.target.textContent="🔊 MÚSICA"}};
-</script></body></html>
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Piky's GAMES!</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #02030a;
+            font-family: Consolas, monospace;
+            color: white;
+        }
+
+        #splash {
+            position: fixed;
+            inset: 0;
+
+            background:
+                #000
+                url("portada_inicio.png")
+                center / contain
+                no-repeat;
+
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+
+            padding-bottom: 4vh;
+        }
+
+        button {
+            border: 2px solid #58eaff;
+            background: #050817dd;
+            color: #fff;
+
+            padding: 14px 28px;
+
+            font: bold 18px Consolas;
+            cursor: pointer;
+
+            box-shadow: 0 0 18px #29dfff;
+        }
+
+        #start {
+            animation: b 1s steps(2) infinite;
+        }
+
+        #menu {
+            display: none;
+
+            position: fixed;
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #17204a,
+                    #040511 70%
+                );
+
+            text-align: center;
+            padding: 5vh 3vw;
+        }
+
+        h1 {
+            margin: 0 0 3vh;
+
+            font-size: clamp(42px, 8vw, 88px);
+            color: #ffe13b;
+
+            text-shadow:
+                5px 5px #ff3a5f,
+                9px 9px #2ccfff;
+        }
+
+        .grid {
+            max-width: 1000px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(260px, 1fr));
+
+            gap: 16px;
+        }
+
+        .grid a {
+            display: block;
+
+            text-decoration: none;
+            color: #fff;
+
+            background: #0b1027;
+            border: 3px solid #2de0ff;
+
+            padding: 20px;
+
+            font-size: 22px;
+            font-weight: bold;
+
+            box-shadow: 5px 5px 0 #ff3c9e;
+
+            transition: 0.12s;
+        }
+
+
+        .grid a {
+            overflow: hidden;
+        }
+
+        .thumb {
+            display: block;
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+
+        .game-name {
+            display: block;
+        }
+
+        .grid a:hover {
+            transform: translate(-2px, -2px);
+            background: #16204b;
+        }
+
+        .grid a:last-child {
+            grid-column: 1 / -1;
+        }
+
+        small {
+            display: block;
+            margin-top: 3vh;
+            color: #9aa8d8;
+        }
+
+        #sound {
+            position: fixed;
+            right: 18px;
+            bottom: 15px;
+
+            padding: 8px 12px;
+        }
+
+        @keyframes b {
+            50% {
+                opacity: 0.35;
+            }
+        }
+
+        @media (max-width: 900px) {
+            #menu {
+                overflow: auto;
+            }
+
+            .grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PORTADA / SPLASH -->
+    <section id="splash">
+
+        <button id="start">
+            PRESIONÁ ESPACIO PARA ENTRAR
+        </button>
+
+    </section>
+
+
+    <!-- MENÚ PRINCIPAL -->
+    <section id="menu">
+
+        <h1>PIKY'S GAMES!</h1>
+
+        <div class="grid">
+
+            <a href="snake.html">
+                <img
+                    class="thumb"
+                    src="snake_logo.png"
+                    alt="Piky's Snake"
+                >
+
+                <span class="game-name">
+                    🐍 PIKY'S SNAKE
+                </span>
+            </a>
+
+
+            <a href="pong.html">
+                <img
+                    class="thumb"
+                    src="portada.png"
+                    alt="Tomy vs Valen Pong"
+                >
+
+                <span class="game-name">
+                    🏓 TOMY VS. VALEN PONG
+                </span>
+            </a>
+
+
+            <a href="breakout.html">
+                <img
+                    class="thumb"
+                    src="tomy_breakout_portada.png"
+                    alt="Tomy's Breakout"
+                >
+
+                <span class="game-name">
+                    🧱 TOMY'S BREAKOUT
+                </span>
+            </a>
+
+
+            <a href="sokoban.html">
+                <img
+                    class="thumb"
+                    src="portada_caritolina.png"
+                    alt="Caritolina's Tidy Up"
+                >
+
+                <span class="game-name">
+                    🏠 CARITOLINA'S TIDY UP
+                </span>
+            </a>
+
+
+            <a href="invaders.html">
+                <img
+                    class="thumb"
+                    src="valen_logo.png"
+                    alt="Valen contra los Marcianos"
+                >
+
+                <span class="game-name">
+                    👾 VALEN CONTRA LOS MARCIANOS
+                </span>
+            </a>
+
+        </div>
+
+        <small>
+            FYDITO'S ARCADE · HECHO EN CASA · 2026
+        </small>
+
+    </section>
+
+
+    <!-- BOTÓN DE MÚSICA -->
+    <button id="sound" hidden>
+        🔊 MÚSICA
+    </button>
+
+
+    <script>
+        let ac;
+        let master;
+        let playing = false;
+        let step = 0;
+        let timer;
+
+
+        const bass = [
+            110,
+            110,
+            146.83,
+            110,
+            164.81,
+            146.83,
+            98,
+            110
+        ];
+
+
+        const arp = [
+            440,
+            554.37,
+            659.25,
+            880,
+            659.25,
+            554.37,
+            493.88,
+            659.25,
+            523.25,
+            659.25,
+            783.99,
+            1046.5,
+            783.99,
+            659.25,
+            587.33,
+            783.99
+        ];
+
+
+        function tone(
+            f,
+            d = 0.075,
+            t = "square",
+            v = 0.035
+        ) {
+            let o = ac.createOscillator();
+            let g = ac.createGain();
+
+            o.type = t;
+            o.frequency.value = f;
+
+            g.gain.value = v;
+
+            g.gain.exponentialRampToValueAtTime(
+                0.001,
+                ac.currentTime + d
+            );
+
+            o.connect(g);
+            g.connect(master);
+
+            o.start();
+            o.stop(ac.currentTime + d);
+        }
+
+
+        function noise() {
+            let b = ac.createBuffer(
+                1,
+                ac.sampleRate * 0.035,
+                ac.sampleRate
+            );
+
+            let d = b.getChannelData(0);
+
+            for (let i = 0; i < d.length; i++) {
+                d[i] = Math.random() * 2 - 1;
+            }
+
+            let s = ac.createBufferSource();
+            let g = ac.createGain();
+
+            s.buffer = b;
+
+            g.gain.value = 0.015;
+
+            g.gain.exponentialRampToValueAtTime(
+                0.001,
+                ac.currentTime + 0.035
+            );
+
+            s.connect(g);
+            g.connect(master);
+
+            s.start();
+        }
+
+
+        function beat() {
+            if (!playing) {
+                return;
+            }
+
+            let i = step % 16;
+
+            tone(
+                arp[i],
+                0.065,
+                "square",
+                0.025
+            );
+
+            if (i % 2 === 0) {
+                tone(
+                    bass[Math.floor(i / 2)],
+                    0.12,
+                    "sawtooth",
+                    0.025
+                );
+            }
+
+            if (i % 4 === 0) {
+                tone(
+                    55,
+                    0.06,
+                    "sine",
+                    0.05
+                );
+
+                noise();
+            }
+
+            if (i % 4 === 2) {
+                noise();
+            }
+
+            step++;
+        }
+
+
+        function startMusic() {
+
+            if (!ac) {
+                ac = new (
+                    window.AudioContext ||
+                    window.webkitAudioContext
+                )();
+
+                master = ac.createGain();
+
+                master.gain.value = 0.7;
+
+                master.connect(
+                    ac.destination
+                );
+            }
+
+            ac.resume();
+
+            playing = true;
+
+            clearInterval(timer);
+
+            timer = setInterval(
+                beat,
+                105
+            );
+
+            beat();
+        }
+
+
+        function stopMusic() {
+            playing = false;
+
+            clearInterval(timer);
+        }
+
+
+        function enter() {
+
+            document
+                .querySelector("#splash")
+                .style
+                .display = "none";
+
+            document
+                .querySelector("#menu")
+                .style
+                .display = "block";
+
+            document
+                .querySelector("#sound")
+                .hidden = false;
+
+            startMusic();
+        }
+
+
+        start.onclick = enter;
+
+
+        document.addEventListener(
+            "keydown",
+            e => {
+
+                if (
+                    (
+                        e.code === "Space" ||
+                        e.code === "Enter"
+                    ) &&
+                    splash.style.display !== "none"
+                ) {
+                    e.preventDefault();
+
+                    enter();
+                }
+
+            }
+        );
+
+
+        sound.onclick = e => {
+
+            if (playing) {
+
+                stopMusic();
+
+                e.target.textContent =
+                    "🔇 MÚSICA";
+
+            } else {
+
+                startMusic();
+
+                e.target.textContent =
+                    "🔊 MÚSICA";
+            }
+
+        };
+    </script>
+
+</body>
+</html>
