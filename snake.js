@@ -6,8 +6,10 @@ const overlay=document.getElementById("overlay"),overlayTitle=document.getElemen
 const restart=document.getElementById("restart"),backMode=document.getElementById("backMode"),p2Hud=document.getElementById("p2Hud"),highHud=document.getElementById("highHud"),controls=document.getElementById("controls");
 
 const CELL=24,COLS=25,ROWS=25;
-let mode=1,snake1=[],snake2=[],dir1,nextDir1,dir2,nextDir2,foods=[];
+let mode=1,snake1=[],snake2=[],dir1,nextDir1,dir2,nextDir2,foods=[],powerUps=[];
 let score1=0,score2=0,timer,running=false,paused=false,speed=120,obstacles=[],level=1,effectUntil=0;
+let nextPowerUpAt=0;
+const POWERUP_LIFE=8000;
 let high=Number(localStorage.getItem("pikysSnakeHigh")||0);highEl.textContent=high;
 
 const layouts=[
@@ -44,35 +46,34 @@ function reset(){
  }else snake2=[];
 
  scoreEl.textContent=0;score2El.textContent=0;
- setLevel();placeFoods();running=true;draw();loop();
+ setLevel();placeFoods();powerUps=[];scheduleNextPowerUp();running=true;draw();loop();
 }
 function loop(){clearInterval(timer);timer=setInterval(tick,speed)}
 function allSnakes(){return mode===2?[...snake1,...snake2]:snake1}
 function occupied(x,y){return allSnakes().some(p=>p.x===x&&p.y===y)||obstacles.some(p=>p.x===x&&p.y===y)}
+function randomFreeSpot(){
+ let p;
+ do{p={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS)}}
+ while(occupied(p.x,p.y)||foods.some(q=>q.x===p.x&&q.y===p.y)||powerUps.some(q=>q.x===p.x&&q.y===p.y));
+ return p;
+}
 function placeFoods(){
  foods=[];
  const cantidad=mode===2?2:1;
- for(let i=0;i<cantidad;i++){
-   let f;
-   do{
-     f={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS),type:pickFoodType()};
-   }while(occupied(f.x,f.y)||foods.some(q=>q.x===f.x&&q.y===f.y));
-   foods.push(f);
- }
-}
-function pickFoodType(){
- const total=score1+score2;
- if(total<3||Math.random()<.68)return "apple";
- return ["shrink","grow","fast","slow"][Math.floor(Math.random()*4)];
+ for(let i=0;i<cantidad;i++){const p=randomFreeSpot();foods.push({...p,type:"apple"})}
 }
 function refillFoods(){
  const cantidad=mode===2?2:1;
- while(foods.length<cantidad){
-   let f;
-   do{
-     f={x:Math.floor(Math.random()*COLS),y:Math.floor(Math.random()*ROWS),type:pickFoodType()};
-   }while(occupied(f.x,f.y)||foods.some(q=>q.x===f.x&&q.y===f.y));
-   foods.push(f);
+ while(foods.length<cantidad){const p=randomFreeSpot();foods.push({...p,type:"apple"})}
+}
+function scheduleNextPowerUp(){nextPowerUpAt=Date.now()+3500+Math.random()*4500}
+function updatePowerUps(){
+ const now=Date.now();
+ powerUps=powerUps.filter(p=>p.expiresAt>now);
+ if(powerUps.length===0&&now>=nextPowerUpAt){
+  const p=randomFreeSpot(),types=["shrink","grow","fast","slow"];
+  powerUps.push({...p,type:types[Math.floor(Math.random()*types.length)],expiresAt:now+POWERUP_LIFE});
+  scheduleNextPowerUp();
  }
 }
 function setLevel(){
@@ -83,24 +84,18 @@ function setLevel(){
  levelEl.textContent="NIVEL "+level;
 }
 function showEffect(t){effectUntil=Date.now()+1600;effectEl.textContent=t}
-function applyFood(which,type){
- let snake=which===1?snake1:snake2;
+function eatApple(which){
  if(which===1)score1++;else score2++;
  scoreEl.textContent=score1;score2El.textContent=score2;
-
- if(type==="grow"){
-   let tail=snake[snake.length-1];for(let i=0;i<3;i++)snake.push({...tail});
-   showEffect((which===1?"PIKY":"J2")+" ¡SE ALARGA!");
- }
- if(type==="shrink"){
-   for(let i=0;i<3&&snake.length>4;i++)snake.pop();
-   showEffect((which===1?"PIKY":"J2")+" ¡SE ACHICA!");
- }
+ showEffect((which===1?"PIKY":"J2")+" +1");
+ setLevel();
+}
+function applyPowerUp(which,type){
+ let snake=which===1?snake1:snake2;
+ if(type==="grow"){let tail=snake[snake.length-1];for(let i=0;i<3;i++)snake.push({...tail});showEffect((which===1?"PIKY":"J2")+" ¡SE ALARGA!")}
+ if(type==="shrink"){for(let i=0;i<3&&snake.length>4;i++)snake.pop();showEffect((which===1?"PIKY":"J2")+" ¡SE ACHICA!")}
  if(type==="fast"){speed=Math.max(52,speed-18);loop();showEffect("¡TURBO!")}
  if(type==="slow"){speed=Math.min(180,speed+22);loop();showEffect("¡CÁMARA LENTA!")}
- if(type==="apple")showEffect((which===1?"PIKY":"J2")+" +1");
-
- setLevel();
 }
 function deadByWorld(head,snake,otherSnake){
  return head.x<0||head.y<0||head.x>=COLS||head.y>=ROWS||
@@ -111,6 +106,7 @@ function deadByWorld(head,snake,otherSnake){
 function tick(){
  if(!running||paused)return;
  if(effectUntil&&Date.now()>effectUntil){effectEl.textContent="";effectUntil=0}
+ updatePowerUps();
 
  dir1=nextDir1;
  if(mode===2)dir2=nextDir2;
@@ -130,22 +126,20 @@ function tick(){
  if(mode===2)snake2.unshift(h2);
 
  let i1=foods.findIndex(f=>h1.x===f.x&&h1.y===f.y);
- let i2=mode===2?foods.findIndex(f=>h2.x===f.x&&h2.y===f.y):-1;
+ if(i1>=0){foods.splice(i1,1);eatApple(1)}else snake1.pop();
 
- if(i1>=0){
-   const tipo=foods[i1].type;
-   foods.splice(i1,1);
-   applyFood(1,tipo);
- }else snake1.pop();
-
- // Recalcular para J2 porque J1 pudo haber quitado una comida del array.
  if(mode===2){
-   i2=foods.findIndex(f=>h2.x===f.x&&h2.y===f.y);
-   if(i2>=0){
-     const tipo=foods[i2].type;
-     foods.splice(i2,1);
-     applyFood(2,tipo);
-   }else snake2.pop();
+  let i2=foods.findIndex(f=>h2.x===f.x&&h2.y===f.y);
+  if(i2>=0){foods.splice(i2,1);eatApple(2)}else snake2.pop();
+ }
+
+ // Los power-ups son extras opcionales y nunca reemplazan la manzana.
+ let p1=powerUps.findIndex(p=>h1.x===p.x&&h1.y===p.y);
+ if(p1>=0){const tipo=powerUps[p1].type;powerUps.splice(p1,1);applyPowerUp(1,tipo);scheduleNextPowerUp()}
+
+ if(mode===2){
+  let p2=powerUps.findIndex(p=>h2.x===p.x&&h2.y===p.y);
+  if(p2>=0){const tipo=powerUps[p2].type;powerUps.splice(p2,1);applyPowerUp(2,tipo);scheduleNextPowerUp()}
  }
 
  refillFoods();
@@ -193,6 +187,7 @@ function draw(){
    ctx.strokeStyle="#66ff86";ctx.strokeRect(X+2,Y+2,CELL-4,CELL-4);
  });
  foods.forEach(drawFood);
+ powerUps.forEach(drawFood);
  drawSnake(snake1,"#35d85f",false,true);
  if(mode===2)drawSnake(snake2,"#ff3adf",true,false);
 
