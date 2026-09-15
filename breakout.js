@@ -1,7 +1,46 @@
 const c=document.getElementById("game"),x=c.getContext("2d"),intro=document.getElementById("intro"),wrap=document.getElementById("wrap"),scoreEl=document.getElementById("score"),highEl=document.getElementById("high");
 let keys={},paddle,balls=[],bricks=[],caps=[],score=0,lives=3,level=1,running=false,paused=false,launched=false,msg="",msgUntil=0,shield=0;
 let high=+localStorage.getItem("tomysBreakoutHigh")||0;highEl.textContent=high;
-let AC;function sound(f=440,d=.05){try{AC??=new (AudioContext||webkitAudioContext)();AC.resume();let o=AC.createOscillator(),g=AC.createGain();o.type="square";o.frequency.value=f;g.gain.value=.025;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+let AC,sfxEnabled=true,musicEnabled=true,musicTimer=null,musicStep=0;function sound(f=440,d=.05){if(!sfxEnabled)return;try{AC??=new (AudioContext||webkitAudioContext)();AC.resume();let o=AC.createOscillator(),g=AC.createGain();o.type="square";o.frequency.value=f;g.gain.value=.025;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+
+function musicTone(f,d=.08,type="square",v=.018){
+ try{
+  AC??=new (AudioContext||webkitAudioContext)();
+  AC.resume();
+  let o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.value=f;g.gain.value=v;
+  g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);
+  o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);
+ }catch(e){}
+}
+const MUSIC_NOTES=[330,392,440,523.25,440,392,330,261.63,293.66,349.23,440,349.23,293.66,261.63,220,293.66];
+const MUSIC_BASS=[110,110,146.83,146.83,130.81,130.81,98,98];
+function musicBeat(){
+ if(!musicEnabled||!running||paused)return;
+ let i=musicStep%MUSIC_NOTES.length;
+ musicTone(MUSIC_NOTES[i],.07,"square",.016);
+ if(i%2===0)musicTone(MUSIC_BASS[(i/2)%MUSIC_BASS.length],.13,"sawtooth",.012);
+ musicStep++;
+}
+function startMusic(){
+ if(musicTimer)return;
+ musicTimer=setInterval(musicBeat,125);
+}
+function stopMusic(){
+ clearInterval(musicTimer);
+ musicTimer=null;
+}
+function updateAudioButtons(){
+ const mb=document.getElementById("musicToggle");
+ const sb=document.getElementById("soundToggle");
+ if(mb){
+  mb.textContent="🎵";
+  mb.style.opacity=musicEnabled?"1":".35";
+  mb.style.textDecoration=musicEnabled?"none":"line-through";
+ }
+ if(sb)sb.textContent=sfxEnabled?"🔊":"🔇";
+}
+
 const COLORS=["#ff3b5c","#ff8a28","#ffe135","#56ef72","#39d7ff","#8c65ff","#ff4fd8"];
 const POW={BIG:{icon:"B",name:"BIG PADDLE!",col:"#56ef72"},SMALL:{icon:"M",name:"MINI PADDLE!",col:"#ff3b5c"},MULTI:{icon:"3",name:"MULTIBALL!",col:"#ff4fd8"},LIFE:{icon:"+",name:"EXTRA LIFE!",col:"#ff6688"},SLOW:{icon:"S",name:"SLOW BALL!",col:"#39d7ff"},FAST:{icon:"F",name:"FAST BALL!",col:"#ff8a28"},SHIELD:{icon:"D",name:"SHIELD!",col:"#ffe135"}};
 function build(){bricks=[];let rows=Math.min(4+level,9),cols=12,bw=64,bh=22,g=7,start=(900-(cols*bw+(cols-1)*g))/2;for(let r=0;r<rows;r++)for(let q=0;q<cols;q++){if(level>2&&level%3===0&&(q+r)%5===0)continue;bricks.push({x:start+q*(bw+g),y:65+r*(bh+g),w:bw,h:bh,color:COLORS[r%COLORS.length],alive:true})}}
@@ -31,8 +70,35 @@ x.fillStyle="#fff";x.font="17px Consolas";x.fillText("VIDAS: "+"● ".repeat(Mat
 if(performance.now()<msgUntil){x.textAlign="center";x.font="bold 34px Consolas";x.fillStyle="#ffe600";x.fillText(msg,450,330);x.textAlign="left"}
 if(paused){x.fillStyle="#000b";x.fillRect(0,0,900,600);x.fillStyle="#ffe600";x.font="bold 50px Consolas";x.fillText("PAUSA",360,310)}}
 function gameOver(){running=false;if(score>high){high=score;localStorage.setItem("tomysBreakoutHigh",high);highEl.textContent=high}setTimeout(()=>{alert("GAME OVER · "+score+" puntos · Nivel "+level);showIntro()},50)}
-function showIntro(){running=false;wrap.classList.add("hidden");intro.classList.remove("hidden")}
+function showIntro(){running=false;stopMusic();wrap.classList.add("hidden");intro.classList.remove("hidden")}
 function loop(){if(!running)return;if(!paused)update();draw();requestAnimationFrame(loop)}
-function start(){intro.classList.add("hidden");wrap.classList.remove("hidden");reset()}
+function start(){intro.classList.add("hidden");wrap.classList.remove("hidden");reset();if(musicEnabled)startMusic();updateAudioButtons()}
 document.addEventListener("keydown",e=>{if(!running&&(e.code==="Space"||e.code==="Enter")&&!intro.classList.contains("hidden")){e.preventDefault();start();return}keys[e.code]=true;if(e.code==="Space"&&running){e.preventDefault();launched=true}if(e.code==="KeyP"&&running)paused=!paused;if(e.code==="Escape"){if(running)showIntro();else if(!intro.classList.contains("hidden"))window.location.href="index.html"}});
 document.addEventListener("keyup",e=>keys[e.code]=false);
+
+c.addEventListener("mousemove",e=>{
+ if(!running)return;
+ const rect=c.getBoundingClientRect();
+ const mouseX=(e.clientX-rect.left)*(c.width/rect.width);
+ paddle.x=mouseX-paddle.w/2;
+ paddle.x=Math.max(5,Math.min(895-paddle.w,paddle.x));
+});
+
+c.addEventListener("click",()=>{
+ if(running&&!paused&&!launched){
+  launched=true;
+ }
+});
+
+document.getElementById("musicToggle").addEventListener("click",()=>{
+ musicEnabled=!musicEnabled;
+ if(musicEnabled&&running)startMusic();else stopMusic();
+ updateAudioButtons();
+});
+
+document.getElementById("soundToggle").addEventListener("click",()=>{
+ sfxEnabled=!sfxEnabled;
+ updateAudioButtons();
+});
+
+updateAudioButtons();
