@@ -17,32 +17,15 @@ button{font:700 18px Consolas;padding:13px 22px;border:2px solid #4cff82;backgro
 button:hover{background:#4cff82;color:#041008}.mode button:nth-of-type(2){border-color:#ff3adf;color:#ff3adf}.mode button:nth-of-type(2):hover{background:#ff3adf;color:#160011}
 #backMode{border-color:#ff3adf;color:#ff3adf;margin-top:4px}#backMode:hover{background:#ff3adf;color:#160011}
 @keyframes logoIntro{0%{opacity:0;transform:scale(.8)}70%{opacity:1;transform:scale(1.06)}100%{transform:scale(1)}}@keyframes blink{50%{opacity:.2}}
-.touch-only{display:none!important}
-#game{touch-action:none;-webkit-user-select:none;user-select:none}
-#intro{touch-action:manipulation}
-.mobile-bar{display:none}
-
+.mobileStartText{display:none}
+#game{touch-action:none}
 @media (hover:none) and (pointer:coarse){
-  html,body{width:100%;height:100%;overscroll-behavior:none}
-  body{overflow:hidden;touch-action:none}
-  .desktop-only{display:none!important}
-  .touch-only{display:block!important}
-  .arcade{width:100vw;max-width:none}
-  .intro,.mode{min-height:100dvh;padding:max(14px,env(safe-area-inset-top)) 12px max(14px,env(safe-area-inset-bottom))}
-  .intro{gap:18px}
-  .logo{width:min(96vw,700px);max-height:72dvh}
-  .blink{font-size:clamp(16px,4vw,23px);padding:0 12px}
-  .mode h1{font-size:clamp(34px,10vw,52px)}
-  .mode{gap:12px}
-  .mode button{min-width:min(82vw,320px);font-size:18px}
-  .game{width:100vw;height:100dvh;border-width:0;display:flex;flex-direction:column}
-  header{padding:7px 10px;font-size:12px;gap:8px}
-  .title{font-size:12px}
-  .status{padding:3px 10px;min-height:21px}
-  canvas{width:min(100vw,calc(100dvh - 126px));height:auto;align-self:center;flex:0 0 auto}
-  footer{display:none}
-  .mobile-bar{display:flex!important;justify-content:center;gap:10px;padding:6px 8px;background:#07150d;margin-top:auto;padding-bottom:max(6px,env(safe-area-inset-bottom))}
-  .mobile-bar button{min-width:0;padding:8px 13px;font-size:13px}
-  .overlay{inset:49px 0 48px}
-  .overlay button{min-width:min(78vw,280px)}
+  html,body{overscroll-behavior:none}
+  body{overflow:hidden}
+  .pcStart{display:none}
+  .mobileStartText{display:inline}
+  .intro{min-height:100dvh;touch-action:manipulation}
+  .logo{width:min(96vw,700px);height:auto}
+  .game{width:100vw;max-width:100vw}
+  canvas{width:min(100vw,calc(100dvh - 105px));height:auto;touch-action:none}
 }

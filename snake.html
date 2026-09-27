@@ -5,14 +5,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <title>Piky's Snake</title>
-    <link rel="stylesheet" href="snake.css">
+    <link rel="stylesheet" href="snake.css?v=mobile4">
 </head>
 
 <body>
     <main class="arcade">
-        <section id="intro" class="screen intro">
+        <section id="intro" class="screen intro" onclick="mobileStart(event)">
             <img src="snake_logo.png" class="logo" alt="Piky's Snake">
-            <div class="blink"><span class="desktop-only">PRESIONÁ ESPACIO PARA COMENZAR</span><span class="touch-only">TOCÁ LA PANTALLA PARA COMENZAR</span></div>
+            <div class="blink"><span class="pcStart">PRESIONÁ ESPACIO PARA COMENZAR</span><span class="mobileStartText">TOCÁ LA PANTALLA PARA COMENZAR</span></div>
         </section>
 
         <section id="modeScreen" class="screen mode hidden">
@@ -20,9 +20,8 @@
             <h2>¿CÓMO JUGAMOS?</h2>
             <button id="onePlayer">1 JUGADOR</button>
             <button id="twoPlayers">2 JUGADORES</button>
-            <p class="desktop-only">1 jugador: WASD o Flechas</p>
-            <p class="desktop-only">2 jugadores: Piky = WASD · Jugador 2 = Flechas</p>
-            <p class="touch-only">Deslizá el dedo para mover a Piky</p>
+            <p>1 jugador: WASD o Flechas</p>
+            <p>2 jugadores: Piky = WASD · Jugador 2 = Flechas</p>
             <small>ESC = volver</small>
         </section>
 
@@ -41,10 +40,6 @@
 
             <canvas id="game" width="600" height="600"></canvas>
             <footer id="controls">WASD / Flechas · P = pausa · ESC = volver</footer>
-            <div id="mobileBar" class="touch-only mobile-bar">
-                <button id="mobilePause" type="button">⏸ PAUSA</button>
-                <button id="mobileBack" type="button">↩ VOLVER</button>
-            </div>
 
             <div id="overlay" class="overlay hidden">
                 <h1 id="overlayTitle">GAME OVER</h1>
@@ -54,7 +49,7 @@
             </div>
         </section>
     </main>
-    <script src="snake.js"></script>
+    <script src="snake.js?v=mobile4"></script>
 </body>
 
 </html>
