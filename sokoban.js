@@ -175,6 +175,43 @@ function dibujar(){
  caro();
  if(pausa){g.fillStyle="#050710cc";g.fillRect(0,0,cv.width,cv.height);g.fillStyle="#ffdf45";g.font="bold 48px Consolas";g.textAlign="center";g.fillText("PAUSA",cv.width/2,cv.height/2);g.textAlign="left"}
 }
+
+const caritoTouch = navigator.maxTouchPoints>0 || window.matchMedia("(pointer:coarse)").matches;
+let touchX=0,touchY=0,touchActive=false;
+
+if(caritoTouch){
+  // Portada -> juego: llamada directa a las mismas instrucciones del teclado.
+  portada.addEventListener("touchend", function(e){
+    if(portada.classList.contains("oculto")) return;
+    e.preventDefault();
+    portada.classList.add("oculto");
+    juego.classList.remove("oculto");
+    jugando=true;
+    cargar(0);
+  }, {passive:false});
+
+  // Un swipe = un movimiento Sokoban.
+  cv.addEventListener("touchstart", function(e){
+    if(!jugando || !e.touches.length) return;
+    e.preventDefault();
+    touchX=e.touches[0].clientX; touchY=e.touches[0].clientY; touchActive=true;
+  }, {passive:false});
+
+  cv.addEventListener("touchmove", function(e){
+    if(touchActive) e.preventDefault();
+  }, {passive:false});
+
+  cv.addEventListener("touchend", function(e){
+    if(!touchActive || !e.changedTouches.length) return;
+    e.preventDefault(); touchActive=false;
+    const dx=e.changedTouches[0].clientX-touchX;
+    const dy=e.changedTouches[0].clientY-touchY;
+    if(Math.hypot(dx,dy)<22) return;
+    if(Math.abs(dx)>Math.abs(dy)) mover(dx>0?1:-1,0);
+    else mover(0,dy>0?1:-1);
+  }, {passive:false});
+}
+
 document.addEventListener("keydown",e=>{
  if(!portada.classList.contains("oculto")&&(e.code=="Space"||e.code=="Enter")){e.preventDefault();portada.classList.add("oculto");juego.classList.remove("oculto");jugando=true;cargar(0);return}
  if(!jugando&&portada.classList.contains("oculto")&&e.code=="Space"){e.preventDefault();if(nivel>=niveles.length){juego.classList.add("oculto");portada.classList.remove("oculto")}else siguiente();return}
@@ -184,49 +221,3 @@ document.addEventListener("keydown",e=>{
  let d={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]}[e.code];
  if(d){e.preventDefault();mover(...d)}
 });
-/* PIKY'S GAMES MOBILE · CARITOLINA SWIPE */
-const caritoTouch = navigator.maxTouchPoints>0 || window.matchMedia("(pointer:coarse)").matches;
-let caritoSX=0,caritoSY=0,caritoSwipe=false;
-const CARITO_SWIPE_MIN=24;
-
-if(caritoTouch){
-  document.addEventListener("touchstart",e=>{
-    if(!e.touches.length) return;
-    const t=e.touches[0];
-    caritoSX=t.clientX; caritoSY=t.clientY; caritoSwipe=true;
-  },{passive:true});
-
-  document.addEventListener("touchmove",e=>{
-    if(caritoSwipe) e.preventDefault();
-  },{passive:false});
-
-  document.addEventListener("touchend",e=>{
-    if(!caritoSwipe || !e.changedTouches.length) return;
-    caritoSwipe=false;
-    e.preventDefault();
-
-    const t=e.changedTouches[0];
-    const dx=t.clientX-caritoSX, dy=t.clientY-caritoSY;
-    if(Math.hypot(dx,dy)<CARITO_SWIPE_MIN) return;
-
-    let key;
-    if(Math.abs(dx)>Math.abs(dy)) key=dx>0?"ArrowRight":"ArrowLeft";
-    else key=dy>0?"ArrowDown":"ArrowUp";
-
-    // Un swipe = exactamente una pulsación de dirección.
-    window.dispatchEvent(new KeyboardEvent("keydown",{key:key,code:key,bubbles:true}));
-  },{passive:false});
-}
-
-/* Inicio táctil: mismo flujo que Space, sin mandar el juego debajo de la portada */
-let caritoStarting=false;
-function iniciarCaritoTouch(e){
-  if(!caritoTouch || portada.classList.contains("oculto") || caritoStarting) return;
-  if(e){e.preventDefault();e.stopPropagation();}
-  caritoStarting=true;
-  portada.classList.add("oculto");
-  juego.classList.remove("oculto");
-  jugando=true;
-  cargar(0);
-  setTimeout(()=>caritoStarting=false,400);
-}
