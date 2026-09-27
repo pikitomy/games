@@ -71,7 +71,25 @@
                 );
 
             text-align: center;
-            padding: 5vh 3vw;
+            padding: 5vh 3vw 7vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            overscroll-behavior: contain;
+        }
+
+
+        #menu::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        #menu::-webkit-scrollbar-track {
+            background: #040511;
+        }
+
+        #menu::-webkit-scrollbar-thumb {
+            background: #2de0ff;
+            border: 3px solid #040511;
+            border-radius: 8px;
         }
 
         h1 {
@@ -136,10 +154,6 @@
         .grid a:hover {
             transform: translate(-2px, -2px);
             background: #16204b;
-        }
-
-        .grid a:last-child {
-            grid-column: 1 / -1;
         }
 
         small {
@@ -261,6 +275,19 @@
 
                 <span class="game-name">
                     👾 VALEN CONTRA LOS MARCIANOS
+                </span>
+            </a>
+
+
+            <a href="simon.html">
+                <img
+                    class="thumb"
+                    src="simon_portada.png"
+                    alt="Fydito's Simon"
+                >
+
+                <span class="game-name">
+                    🎵 FYDITO'S SIMON
                 </span>
             </a>
 
