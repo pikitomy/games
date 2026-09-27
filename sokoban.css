@@ -11,3 +11,40 @@ canvas{display:block;width:100%;height:auto;background:#171a22;image-rendering:p
 #cartel{position:absolute;inset:43px 0 37px;background:#050710e9;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-size:22px;line-height:1.6}
 #cartel strong{font-size:43px;color:#ffdf45;text-shadow:3px 3px #ff4fa3}
 #cartel small{color:#dce8ff}
+/* CARITOLINA'S TIDY UP! · MOBILE v1 */
+#portraitOnly{display:none}
+canvas{touch-action:none;-webkit-user-select:none;user-select:none}
+
+@media (hover:none) and (pointer:coarse){
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{
+    margin:0;width:100%;max-width:100%;
+    overflow-x:hidden;overscroll-behavior:none;
+  }
+  body{touch-action:none}
+  canvas{
+    display:block;
+    max-width:100vw!important;
+    height:auto!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
+
+@media (hover:none) and (pointer:coarse) and (orientation:landscape){
+  #portraitOnly{
+    position:fixed;inset:0;z-index:99999;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    gap:14px;padding:24px;
+    background:#061018;color:#d9f8ff;
+    text-align:center;font-family:"Courier New",monospace;
+  }
+  #portraitOnly .rotate-icon{font-size:58px;line-height:1}
+  #portraitOnly strong{
+    font-size:clamp(25px,5vw,42px);
+    letter-spacing:2px;color:#39e7ff;
+    text-shadow:0 0 12px rgba(57,231,255,.45);
+  }
+  #portraitOnly span{font-size:clamp(14px,2.5vw,20px)}
+}

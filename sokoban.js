@@ -184,3 +184,36 @@ document.addEventListener("keydown",e=>{
  let d={ArrowUp:[0,-1],KeyW:[0,-1],ArrowDown:[0,1],KeyS:[0,1],ArrowLeft:[-1,0],KeyA:[-1,0],ArrowRight:[1,0],KeyD:[1,0]}[e.code];
  if(d){e.preventDefault();mover(...d)}
 });
+/* PIKY'S GAMES MOBILE · CARITOLINA SWIPE */
+const caritoTouch = navigator.maxTouchPoints>0 || window.matchMedia("(pointer:coarse)").matches;
+let caritoSX=0,caritoSY=0,caritoSwipe=false;
+const CARITO_SWIPE_MIN=24;
+
+if(caritoTouch){
+  document.addEventListener("touchstart",e=>{
+    if(!e.touches.length) return;
+    const t=e.touches[0];
+    caritoSX=t.clientX; caritoSY=t.clientY; caritoSwipe=true;
+  },{passive:true});
+
+  document.addEventListener("touchmove",e=>{
+    if(caritoSwipe) e.preventDefault();
+  },{passive:false});
+
+  document.addEventListener("touchend",e=>{
+    if(!caritoSwipe || !e.changedTouches.length) return;
+    caritoSwipe=false;
+    e.preventDefault();
+
+    const t=e.changedTouches[0];
+    const dx=t.clientX-caritoSX, dy=t.clientY-caritoSY;
+    if(Math.hypot(dx,dy)<CARITO_SWIPE_MIN) return;
+
+    let key;
+    if(Math.abs(dx)>Math.abs(dy)) key=dx>0?"ArrowRight":"ArrowLeft";
+    else key=dy>0?"ArrowDown":"ArrowUp";
+
+    // Un swipe = exactamente una pulsación de dirección.
+    window.dispatchEvent(new KeyboardEvent("keydown",{key:key,code:key,bubbles:true}));
+  },{passive:false});
+}
