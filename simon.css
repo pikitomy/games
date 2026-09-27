@@ -40,3 +40,10 @@
     transform-origin:center center;
   }
 }
+
+/* SIMON MOBILE v3 · tipografía central compacta */
+@media (hover:none) and (pointer:coarse){
+  #center b{font-size:15px!important;line-height:1.05}
+  #center strong{font-size:21px!important;line-height:1;letter-spacing:1px!important}
+  #display{font-size:18px!important;margin-top:6px!important;padding:1px 7px!important}
+}
