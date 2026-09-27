@@ -48,3 +48,11 @@ canvas{touch-action:none;-webkit-user-select:none;user-select:none}
   }
   #portraitOnly span{font-size:clamp(14px,2.5vw,20px)}
 }
+
+/* CARITOLINA MOBILE v2 · portada táctil */
+.touch-only{display:none!important}
+@media (hover:none) and (pointer:coarse){
+  .pc-only{display:none!important}
+  .touch-only{display:inline!important}
+  #portada{touch-action:manipulation;min-height:100dvh}
+}

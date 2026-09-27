@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <title>Caritolina's Tidy Up!</title>
-    <link rel="stylesheet" href="sokoban.css?v=mobile1">
+    <link rel="stylesheet" href="sokoban.css?v=mobile2">
 </head>
 
 <body>
-    <section id="portada">
+    <section id="portada" onclick="iniciarCaritoTouch(event)">
         <img src="portada_caritolina.png" alt="Caritolina's Tidy Up!">
-        <div class="pulsa">PRESIONÁ ESPACIO PARA JUGAR</div>
+        <div class="pulsa"><span class="pc-only">PRESIONÁ ESPACIO PARA JUGAR</span><span class="touch-only">TOCÁ LA PANTALLA PARA JUGAR</span></div>
     </section>
 
     <main id="juego" class="oculto">
@@ -29,7 +29,7 @@
   <strong>GIRÁ EL CELULAR</strong>
   <span>Caritolina's Tidy Up! se juega en vertical</span>
 </div>
-<script src="sokoban.js?v=mobile1"></script>
+<script src="sokoban.js?v=mobile2"></script>
 </body>
 
 </html>

@@ -217,3 +217,16 @@ if(caritoTouch){
     window.dispatchEvent(new KeyboardEvent("keydown",{key:key,code:key,bubbles:true}));
   },{passive:false});
 }
+
+/* Inicio táctil: mismo flujo que Space, sin mandar el juego debajo de la portada */
+let caritoStarting=false;
+function iniciarCaritoTouch(e){
+  if(!caritoTouch || portada.classList.contains("oculto") || caritoStarting) return;
+  if(e){e.preventDefault();e.stopPropagation();}
+  caritoStarting=true;
+  portada.classList.add("oculto");
+  juego.classList.remove("oculto");
+  jugando=true;
+  cargar(0);
+  setTimeout(()=>caritoStarting=false,400);
+}
