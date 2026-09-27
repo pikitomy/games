@@ -10,6 +10,9 @@ let mode=1,snake1=[],snake2=[],dir1,nextDir1,dir2,nextDir2,foods=[],powerUps=[];
 let score1=0,score2=0,timer,running=false,paused=false,speed=120,obstacles=[],level=1,effectUntil=0;
 let nextPowerUpAt=0;
 const POWERUP_LIFE=8000;
+const touchDevice=window.matchMedia("(hover:none) and (pointer:coarse)").matches || navigator.maxTouchPoints>0;
+let touchStartX=0,touchStartY=0,touchPlayer=1,touchTracking=false;
+const SWIPE_MIN=24;
 let high=Number(localStorage.getItem("pikysSnakeHigh")||0);highEl.textContent=high;
 
 const layouts=[
@@ -29,7 +32,9 @@ function startGame(m){
  modeScreen.classList.add("hidden");gameScreen.classList.remove("hidden");
  p2Hud.classList.toggle("hidden",mode!==2);
  highHud.classList.toggle("hidden",mode===2);
- controls.textContent=mode===1 ? "WASD o Flechas · P = pausa · ESC = volver" : "Piky: WASD · Jugador 2: Flechas · P = pausa · ESC = volver";
+ controls.textContent=touchDevice
+   ? (mode===1 ? "Deslizá para mover · botón PAUSA / VOLVER" : "Cada jugador desliza en su mitad · PAUSA / VOLVER")
+   : (mode===1 ? "WASD o Flechas · P = pausa · ESC = volver" : "Piky: WASD · Jugador 2: Flechas · P = pausa · ESC = volver");
  reset();
 }
 function reset(){
@@ -246,3 +251,40 @@ document.getElementById("onePlayer").onclick=()=>startGame(1);
 document.getElementById("twoPlayers").onclick=()=>startGame(2);
 restart.onclick=()=>reset();
 backMode.onclick=()=>showModes();
+
+// ----- PIKY'S GAMES MOBILE: controles táctiles -----
+intro.addEventListener("pointerup",e=>{
+ if(!touchDevice || intro.classList.contains("hidden"))return;
+ e.preventDefault();
+ startGame(1);
+});
+
+canvas.addEventListener("pointerdown",e=>{
+ if(!touchDevice || !running)return;
+ e.preventDefault();
+ touchStartX=e.clientX;touchStartY=e.clientY;touchTracking=true;
+ const r=canvas.getBoundingClientRect();
+ touchPlayer=(mode===2 && e.clientX>r.left+r.width/2)?2:1;
+ try{canvas.setPointerCapture(e.pointerId)}catch(_){}
+});
+
+canvas.addEventListener("pointerup",e=>{
+ if(!touchDevice || !touchTracking)return;
+ e.preventDefault();touchTracking=false;
+ const dx=e.clientX-touchStartX,dy=e.clientY-touchStartY;
+ if(Math.hypot(dx,dy)<SWIPE_MIN)return;
+ if(Math.abs(dx)>Math.abs(dy))setDirection(touchPlayer,dx>0?1:-1,0);
+ else setDirection(touchPlayer,0,dy>0?1:-1);
+});
+
+canvas.addEventListener("pointercancel",()=>touchTracking=false);
+
+const mobilePause=document.getElementById("mobilePause");
+const mobileBack=document.getElementById("mobileBack");
+mobilePause.addEventListener("click",e=>{
+ e.preventDefault();e.stopPropagation();
+ if(running){paused=!paused;draw();mobilePause.textContent=paused?"▶ SEGUIR":"⏸ PAUSA"}
+});
+mobileBack.addEventListener("click",e=>{
+ e.preventDefault();e.stopPropagation();showModes();
+});
