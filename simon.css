@@ -32,3 +32,11 @@
     margin-right:auto!important;
   }
 }
+
+/* SIMON MOBILE v2 · centro más compacto */
+@media (hover:none) and (pointer:coarse){
+  .center,.hub,.center-circle,.simon-center{
+    transform:scale(.78);
+    transform-origin:center center;
+  }
+}
