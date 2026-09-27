@@ -253,11 +253,16 @@ restart.onclick=()=>reset();
 backMode.onclick=()=>showModes();
 
 // ----- PIKY'S GAMES MOBILE: controles táctiles -----
-intro.addEventListener("pointerup",e=>{
- if(!touchDevice || intro.classList.contains("hidden"))return;
- e.preventDefault();
+let mobileIntroStarted=false;
+function startMobileSnake(e){
+ if(!touchDevice || intro.classList.contains("hidden") || mobileIntroStarted)return;
+ if(e)e.preventDefault();
+ mobileIntroStarted=true;
  startGame(1);
-});
+ setTimeout(()=>mobileIntroStarted=false,500);
+}
+intro.addEventListener("touchend",startMobileSnake,{passive:false});
+intro.addEventListener("click",startMobileSnake);
 
 canvas.addEventListener("pointerdown",e=>{
  if(!touchDevice || !running)return;
@@ -286,5 +291,9 @@ mobilePause.addEventListener("click",e=>{
  if(running){paused=!paused;draw();mobilePause.textContent=paused?"▶ SEGUIR":"⏸ PAUSA"}
 });
 mobileBack.addEventListener("click",e=>{
- e.preventDefault();e.stopPropagation();showModes();
+ e.preventDefault();e.stopPropagation();
+ clearInterval(timer);running=false;paused=false;
+ gameScreen.classList.add("hidden");
+ modeScreen.classList.add("hidden");
+ intro.classList.remove("hidden");
 });
