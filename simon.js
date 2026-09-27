@@ -30,3 +30,22 @@ document.addEventListener("keydown",e=>{
  if(e.code==="KeyP"&&running){e.preventDefault();pause();return}
  if(keys[e.code]!==undefined&&!e.repeat){e.preventDefault();press(keys[e.code])}
 });
+
+/* PIKY'S GAMES MOBILE · SIMON */
+const simonTouchDevice = navigator.maxTouchPoints>0 || window.matchMedia("(pointer:coarse)").matches;
+
+if(simonTouchDevice){
+  document.addEventListener("touchmove", e=>{
+    if(e.target.closest && (e.target.closest(".simon") || e.target.closest("#board"))) e.preventDefault();
+  }, {passive:false});
+
+  // En móviles, un toque en la intro equivale al mismo inicio que Space/Enter.
+  const introMobile = document.getElementById("intro");
+  if(introMobile){
+    introMobile.addEventListener("touchend", e=>{
+      if(introMobile.classList.contains("hidden")) return;
+      e.preventDefault();
+      document.dispatchEvent(new KeyboardEvent("keydown",{key:" ",code:"Space",bubbles:true}));
+    }, {passive:false});
+  }
+}

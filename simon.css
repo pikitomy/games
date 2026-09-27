@@ -9,3 +9,26 @@
 #intro{width:100vw;height:100vh;background:#000;display:flex;align-items:center;justify-content:center;position:relative}
 #intro img{width:100%;height:100%;object-fit:contain}
 #intro .start{position:absolute;bottom:4%;left:50%;transform:translateX(-50%);padding:12px 20px;background:#000d;border:2px solid #00eaff;color:#fff;font-size:18px;white-space:nowrap;text-shadow:2px 2px #ff3bd5;animation:b 1s steps(2) infinite}
+
+/* PIKY'S GAMES MOBILE · SIMON v1 */
+.touch-only{display:none!important}
+#board,.simon,.pad,.sector,.color{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+@media (hover:none) and (pointer:coarse){
+  *,*::before,*::after{box-sizing:border-box}
+  html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden;overscroll-behavior:none}
+  body{touch-action:manipulation}
+  .pc-only{display:none!important}
+  .touch-only{display:inline!important}
+  .arcade,.screen,.game,#game{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+  }
+  /* Simon es naturalmente táctil: los cuatro colores son los botones */
+  .simon,#board{
+    max-width:min(92vw,72dvh)!important;
+    max-height:min(92vw,72dvh)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
