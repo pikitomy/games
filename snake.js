@@ -253,7 +253,13 @@ const isTouchMobile = () => (navigator.maxTouchPoints > 0 || window.matchMedia("
 function mobileStart(e){
   if(!isTouchMobile()) return;
   if(e){ e.preventDefault(); e.stopPropagation(); }
-  if(!intro.classList.contains("hidden")) startGame(1);
+  if(intro.classList.contains("hidden")) return;
+
+  // Mismo cambio de pantallas que el flujo normal, pero salteando el selector.
+  intro.classList.add("hidden");
+  modeScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+  startGame(1);
 }
 
 let swipeX=0, swipeY=0, swiping=false;
