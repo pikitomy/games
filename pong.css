@@ -3,3 +3,22 @@
 .panel{width:min(92vw,640px);padding:34px;background:#0c1020;border:3px solid #ff4fa3;box-shadow:0 0 30px #ff4fa355;text-align:center}.panel h1{font-size:48px;margin:0;color:#31dcff}.panel h2{font-size:38px;color:#ff4fa3;margin:8px 0 28px}.panel button{display:block;width:80%;margin:14px auto;padding:16px;font:700 22px Consolas;background:#111936;color:#fff;border:2px solid #ffe45d;cursor:pointer}.panel button:hover{transform:scale(1.03);background:#17234e}.panel p{color:#cfd8ff}
 #juego{width:min(98vw,1050px);position:relative;border:3px solid #2de0ff;box-shadow:0 0 35px #2de0ff55}header,footer{display:flex;justify-content:space-between;padding:12px 18px;background:#0b1022;color:#dff7ff}header b{font-size:28px;color:#ffe45d}header strong{color:#ff4fa3}footer{justify-content:center;font-size:13px}canvas{display:block;width:100%;height:auto;background:#050713;image-rendering:pixelated}
 #fin{position:absolute;inset:50px 0 38px;background:#050713e8;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}#fin strong{font-size:58px;color:#ffe45d;text-shadow:4px 4px #ff4fa3}#fin button{margin:10px;padding:12px 20px;font:700 18px Consolas;background:#121a35;color:#fff;border:2px solid #2de0ff;cursor:pointer}
+/* TOMY VS VALEN PONG · MOBILE v1 */
+.touch-only{display:none!important}
+canvas{touch-action:none;-webkit-user-select:none;user-select:none}
+@media (hover:none) and (pointer:coarse){
+ *,*::before,*::after{box-sizing:border-box}
+ html,body{margin:0;width:100%;max-width:100%;overflow:hidden;overscroll-behavior:none}
+ body{min-height:100dvh;touch-action:none}
+ .pc-only,.pc-only-block{display:none!important}
+ .touch-only{display:inline!important}
+ #portada{width:100vw;height:100dvh;touch-action:manipulation}
+ #menu{width:min(94vw,640px);padding:24px 12px}
+ #menu h1{font-size:clamp(30px,10vw,48px)}
+ #menu h2{font-size:clamp(24px,8vw,38px)}
+ #juego{width:100vw!important;max-width:100vw!important}
+ header{padding:8px 7px;font-size:12px}
+ header b{font-size:20px}
+ canvas{width:100%!important;max-width:100%!important;height:auto!important}
+ footer{font-size:11px;padding:8px 4px;text-align:center}
+}

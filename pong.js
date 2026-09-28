@@ -116,3 +116,37 @@ document.addEventListener('keydown',e=>{
 });
 document.addEventListener('keyup',e=>keys[e.code]=false);
 document.querySelectorAll('[data-modo]').forEach(b=>b.onclick=()=>start(+b.dataset.modo));
+/* PIKY'S GAMES MOBILE · PONG */
+const pongTouch=navigator.maxTouchPoints>0||window.matchMedia("(pointer:coarse)").matches;
+let pongTouchActive=false;
+
+function moveTomyTouch(clientY){
+ if(!run||!p1)return;
+ const r=c.getBoundingClientRect();
+ const gy=(clientY-r.top)*(c.height/r.height);
+ p1.y=gy-p1.h/2;
+ p1.y=Math.max(0,Math.min(600-p1.h,p1.y));
+}
+if(pongTouch){
+ portada.addEventListener("touchend",e=>{
+   if(portada.classList.contains("oculto"))return;
+   e.preventDefault();
+   portada.classList.add("oculto");
+   menu.classList.remove("oculto");
+ },{passive:false});
+
+ c.addEventListener("touchstart",e=>{
+   if(!run||!e.touches.length)return;
+   e.preventDefault();pongTouchActive=true;
+   moveTomyTouch(e.touches[0].clientY);
+ },{passive:false});
+
+ c.addEventListener("touchmove",e=>{
+   if(!run||!pongTouchActive||!e.touches.length)return;
+   e.preventDefault();
+   moveTomyTouch(e.touches[0].clientY);
+ },{passive:false});
+
+ c.addEventListener("touchend",e=>{if(pongTouchActive)e.preventDefault();pongTouchActive=false},{passive:false});
+ c.addEventListener("touchcancel",()=>pongTouchActive=false);
+}
