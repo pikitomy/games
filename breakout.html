@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <title>Tomy's Breakout</title>
-    <link rel="stylesheet" href="breakout.css">
+    <link rel="stylesheet" href="breakout.css?v=mobile1">
 </head>
 
 <body>
 
     <section id="intro">
         <img src="tomy_breakout_portada.png" alt="Tomy's Breakout">
-        <div class="start">PRESIONÁ ESPACIO PARA COMENZAR</div>
+        <div class="start"><span class="pc-only">PRESIONÁ ESPACIO PARA COMENZAR</span><span class="touch-only">TOCÁ LA PANTALLA PARA COMENZAR</span></div>
     </section>
 
     <main id="wrap" class="hidden">
@@ -28,10 +28,15 @@
         <canvas id="game" width="900" height="600">
 
                 </canvas>
-        <footer>← → / A D o MOUSE mover · ESPACIO lanzar · P pausa · ESC portada</footer>
+        <footer><span class="pc-only">← → / A D o MOUSE mover · ESPACIO lanzar · P pausa · ESC portada</span><span class="touch-only">DESLIZÁ PARA MOVER · TOCÁ PARA LANZAR</span></footer>
     </main>
 
-    <script src="breakout.js"></script>
+    <div id="portraitOnly" aria-hidden="true">
+  <div class="rotate-icon">📱↻</div>
+  <strong>GIRÁ EL CELULAR</strong>
+  <span>Tomy's Breakout se juega en vertical</span>
+</div>
+<script src="breakout.js?v=mobile1"></script>
 </body>
 
 </html>

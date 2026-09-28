@@ -102,3 +102,50 @@ document.getElementById("soundToggle").addEventListener("click",()=>{
 });
 
 updateAudioButtons();
+
+/* PIKY'S GAMES MOBILE · BREAKOUT */
+const breakoutTouch = navigator.maxTouchPoints>0 || window.matchMedia("(pointer:coarse)").matches;
+let touchStartX=0,touchStartY=0,touchMoved=false,touchActive=false;
+const TAP_TOLERANCE=14;
+
+function setPaddleFromTouch(clientX){
+  if(!running || !paddle)return;
+  const rect=c.getBoundingClientRect();
+  const gameX=(clientX-rect.left)*(c.width/rect.width);
+  paddle.x=gameX-paddle.w/2;
+  paddle.x=Math.max(5,Math.min(895-paddle.w,paddle.x));
+}
+
+if(breakoutTouch){
+  intro.addEventListener("touchend",e=>{
+    if(intro.classList.contains("hidden"))return;
+    e.preventDefault();
+    start();
+  },{passive:false});
+
+  c.addEventListener("touchstart",e=>{
+    if(!running || !e.touches.length)return;
+    e.preventDefault();
+    const t=e.touches[0];
+    touchStartX=t.clientX;touchStartY=t.clientY;
+    touchMoved=false;touchActive=true;
+    setPaddleFromTouch(t.clientX);
+  },{passive:false});
+
+  c.addEventListener("touchmove",e=>{
+    if(!running || !touchActive || !e.touches.length)return;
+    e.preventDefault();
+    const t=e.touches[0];
+    if(Math.hypot(t.clientX-touchStartX,t.clientY-touchStartY)>TAP_TOLERANCE)touchMoved=true;
+    setPaddleFromTouch(t.clientX);
+  },{passive:false});
+
+  c.addEventListener("touchend",e=>{
+    if(!running || !touchActive)return;
+    e.preventDefault();
+    touchActive=false;
+    if(!touchMoved && !paused && !launched)launched=true;
+  },{passive:false});
+
+  c.addEventListener("touchcancel",()=>touchActive=false);
+}
