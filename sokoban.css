@@ -25,3 +25,11 @@ canvas{display:block;width:100%;height:auto;background:#171a22;image-rendering:p
  #portraitOnly{position:fixed;inset:0;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#061018;color:#d9f8ff;text-align:center;font-family:"Courier New",monospace}
  #portraitOnly div{font-size:58px} #portraitOnly strong{font-size:30px;color:#39e7ff} #portraitOnly span{font-size:16px}
 }
+
+.mobile-controls{display:none}
+@media (hover:none) and (pointer:coarse) and (orientation:portrait){
+ body{min-height:100dvh}
+ #juego:not(.oculto){min-height:100dvh;display:flex!important;flex-direction:column;justify-content:center;width:100%!important;margin:0!important}
+ .pc-controls{display:none!important}
+ .mobile-controls{display:inline!important;letter-spacing:1px}
+}
