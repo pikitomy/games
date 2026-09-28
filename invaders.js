@@ -274,40 +274,27 @@ document.addEventListener("keydown",e=>{
 document.addEventListener("keyup",e=>keys[e.code]=false);
 restartBtn.addEventListener("click",resetGame);
 
-/* PIKY'S GAMES MOBILE · VALEN INVADERS */
+/* PIKY'S GAMES MOBILE · VALEN INVADERS v2 · CONTROL GLOBAL RELATIVO */
 const invadersTouch=navigator.maxTouchPoints>0||window.matchMedia("(pointer:coarse)").matches;
-let invTouch=false,invStartX=0,invStartY=0,invMoved=false;
+let invTouch=false,invLastX=0,invStartX=0,invStartY=0,invMoved=false;
 const INV_TAP=14;
-
-function moveValenTouch(clientX){
- if(!running||!player)return;
- const r=canvas.getBoundingClientRect();
- const gx=(clientX-r.left)*(canvas.width/r.width);
- player.x=gx-player.w/2;
- player.x=Math.max(8,Math.min(W-player.w-8,player.x));
-}
 if(invadersTouch){
- intro.addEventListener("touchend",e=>{
-   if(intro.classList.contains("hidden"))return;
-   e.preventDefault();startGame();
+ intro.addEventListener("touchend",e=>{if(intro.classList.contains("hidden"))return;e.preventDefault();startGame()},{passive:false});
+ document.addEventListener("touchstart",e=>{
+   if(!running||!e.touches.length||e.target.closest("button"))return;
+   e.preventDefault();const t=e.touches[0];
+   invTouch=true;invLastX=t.clientX;invStartX=t.clientX;invStartY=t.clientY;invMoved=false;
  },{passive:false});
- canvas.addEventListener("touchstart",e=>{
-   if(!running||!e.touches.length)return;
-   e.preventDefault();
-   const t=e.touches[0];invStartX=t.clientX;invStartY=t.clientY;invMoved=false;invTouch=true;
-   moveValenTouch(t.clientX);
- },{passive:false});
- canvas.addEventListener("touchmove",e=>{
-   if(!running||!invTouch||!e.touches.length)return;
-   e.preventDefault();
-   const t=e.touches[0];
+ document.addEventListener("touchmove",e=>{
+   if(!running||!invTouch||!e.touches.length)return;e.preventDefault();
+   const t=e.touches[0],dx=t.clientX-invLastX;invLastX=t.clientX;
    if(Math.hypot(t.clientX-invStartX,t.clientY-invStartY)>INV_TAP)invMoved=true;
-   moveValenTouch(t.clientX);
+   const r=canvas.getBoundingClientRect(),scaleX=canvas.width/Math.max(r.width,1);
+   player.x+=dx*scaleX;player.x=Math.max(8,Math.min(W-player.w-8,player.x));
  },{passive:false});
- canvas.addEventListener("touchend",e=>{
-   if(!running||!invTouch)return;
-   e.preventDefault();invTouch=false;
+ document.addEventListener("touchend",e=>{
+   if(!invTouch)return;e.preventDefault();invTouch=false;
    if(!invMoved&&!paused)shoot();
  },{passive:false});
- canvas.addEventListener("touchcancel",()=>invTouch=false);
+ document.addEventListener("touchcancel",()=>invTouch=false,{passive:true});
 }
