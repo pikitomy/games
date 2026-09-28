@@ -44,3 +44,25 @@ button:hover{background:#63ff8c;color:#041008}
   100%{transform:scale(1)}
 }
 @keyframes blink{50%{opacity:.25}}
+
+.touch-only,#portraitOnly{display:none!important}
+canvas{touch-action:none;-webkit-user-select:none;user-select:none}
+@media (hover:none) and (pointer:coarse){
+ *,*::before,*::after{box-sizing:border-box}
+ html,body{margin:0;width:100%;max-width:100%;overflow:hidden;overscroll-behavior:none}
+ body{min-height:100dvh;touch-action:none}
+ .pc-only{display:none!important}.touch-only{display:inline!important}
+ #app,.game{width:100vw!important;max-width:100vw!important}
+ .intro{min-height:100dvh;touch-action:manipulation}
+ .logo{width:min(96vw,820px);max-height:72dvh}
+ header{padding:9px 7px;font-size:11px;gap:4px}
+ .gameTitle{font-size:11px}
+ canvas{display:block;width:100%!important;max-width:100%!important;height:auto!important}
+ footer{font-size:11px;padding:8px 4px;text-align:center}
+}
+@media (hover:none) and (pointer:coarse) and (orientation:landscape){
+ #portraitOnly{position:fixed;inset:0;z-index:99999;display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#02050a;color:#d9f8ff;text-align:center;font-family:Consolas,monospace;padding:24px}
+ #portraitOnly .rotate-icon{font-size:58px}
+ #portraitOnly strong{font-size:clamp(25px,5vw,42px);color:#4fe2ff;letter-spacing:2px;text-shadow:0 0 12px #4fe2ff77}
+ #portraitOnly span{font-size:clamp(14px,2.5vw,20px)}
+}

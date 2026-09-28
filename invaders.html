@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
     <title>Valen contra los Marcianos</title>
-    <link rel="stylesheet" href="invaders.css">
+    <link rel="stylesheet" href="invaders.css?v=mobile1">
 </head>
 
 <body>
@@ -13,7 +13,7 @@
         <section id="intro" class="screen intro">
             <img src="valen_logo.png" class="logo" alt="Valen contra los Marcianos">
             <div class="subtitle">DEFENDÉ LA CASA</div>
-            <div class="blink">PRESIONÁ ESPACIO PARA COMENZAR</div>
+            <div class="blink"><span class="pc-only">PRESIONÁ ESPACIO PARA COMENZAR</span><span class="touch-only">TOCÁ LA PANTALLA PARA COMENZAR</span></div>
         </section>
 
         <section id="gameScreen" class="screen game hidden">
@@ -26,7 +26,7 @@
             <canvas id="game" width="900" height="600"></canvas>
 
             <footer>
-                ← → / A D mover · ESPACIO disparar · P pausa · ESC portada
+                <span class="pc-only">← → / A D mover · ESPACIO disparar · P pausa · ESC portada</span><span class="touch-only">DESLIZÁ PARA MOVER · TOCÁ PARA DISPARAR</span>
             </footer>
 
             <div id="overlay" class="overlay hidden">
@@ -36,7 +36,8 @@
             </div>
         </section>
     </main>
-    <script src="invaders.js"></script>
+    <div id="portraitOnly"><div class="rotate-icon">📱↻</div><strong>GIRÁ EL CELULAR</strong><span>Valen contra los Marcianos se juega en vertical</span></div>
+<script src="invaders.js?v=mobile1"></script>
 </body>
 
 </html>

@@ -273,3 +273,41 @@ document.addEventListener("keydown",e=>{
 });
 document.addEventListener("keyup",e=>keys[e.code]=false);
 restartBtn.addEventListener("click",resetGame);
+
+/* PIKY'S GAMES MOBILE · VALEN INVADERS */
+const invadersTouch=navigator.maxTouchPoints>0||window.matchMedia("(pointer:coarse)").matches;
+let invTouch=false,invStartX=0,invStartY=0,invMoved=false;
+const INV_TAP=14;
+
+function moveValenTouch(clientX){
+ if(!running||!player)return;
+ const r=canvas.getBoundingClientRect();
+ const gx=(clientX-r.left)*(canvas.width/r.width);
+ player.x=gx-player.w/2;
+ player.x=Math.max(8,Math.min(W-player.w-8,player.x));
+}
+if(invadersTouch){
+ intro.addEventListener("touchend",e=>{
+   if(intro.classList.contains("hidden"))return;
+   e.preventDefault();startGame();
+ },{passive:false});
+ canvas.addEventListener("touchstart",e=>{
+   if(!running||!e.touches.length)return;
+   e.preventDefault();
+   const t=e.touches[0];invStartX=t.clientX;invStartY=t.clientY;invMoved=false;invTouch=true;
+   moveValenTouch(t.clientX);
+ },{passive:false});
+ canvas.addEventListener("touchmove",e=>{
+   if(!running||!invTouch||!e.touches.length)return;
+   e.preventDefault();
+   const t=e.touches[0];
+   if(Math.hypot(t.clientX-invStartX,t.clientY-invStartY)>INV_TAP)invMoved=true;
+   moveValenTouch(t.clientX);
+ },{passive:false});
+ canvas.addEventListener("touchend",e=>{
+   if(!running||!invTouch)return;
+   e.preventDefault();invTouch=false;
+   if(!invMoved&&!paused)shoot();
+ },{passive:false});
+ canvas.addEventListener("touchcancel",()=>invTouch=false);
+}
