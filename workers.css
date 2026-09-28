@@ -1,0 +1,69 @@
+*{box-sizing:border-box}html,body{margin:0;background:#02040a;color:#fff;font-family:Consolas,monospace;overflow:hidden}body{min-height:100vh;display:grid;place-items:center}.hide{display:none!important}#intro{width:100vw;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:25px;background:radial-gradient(circle,#20204c,#02040a 65%)}h1{font-size:clamp(42px,11vw,90px);color:#ffe45d;text-shadow:5px 5px #ff4fa3}h1 small{display:block;font-size:.3em;color:#fff}#intro p{color:#63ff8c;font-size:clamp(15px,3vw,22px);line-height:1.5}#intro>b{padding:12px;border:2px solid #2de0ff;animation:k 1s steps(2) infinite}@keyframes k{50%{opacity:.3}}#wrap{position:relative;width:min(96vw,560px);border:2px solid #2de0ff}header,footer{display:flex;justify-content:space-between;align-items:center;padding:9px;background:#09101f;font-size:12px}header strong{color:#ffe45d}header b{color:#63ff8c}footer{justify-content:center}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;touch-action:none}.touch,#rotate{display:none}#msg{position:absolute;inset:40px 0 30px;background:#000e;align-items:center;justify-content:center;text-align:center;padding:20px;color:#ffe45d;font-size:24px}@media(hover:none) and (pointer:coarse){body{min-height:100dvh;touch-action:none}.pc{display:none}.touch{display:inline}#intro{height:100dvh}#wrap{width:min(100vw,560px)}}@media(hover:none) and (pointer:coarse) and (orientation:landscape){#rotate{position:fixed;inset:0;z-index:99;background:#02040a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:55px;gap:15px}#rotate b{font-size:28px;color:#2de0ff}}
+#wrap.power{border-color:#ffe45d}
+#wrap.power header strong{animation:bossBlink .35s steps(2) infinite}
+@keyframes bossBlink{50%{color:#ff4fa3}}
+
+#gameOverPanel{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.86);display:flex;align-items:center;justify-content:center;font-family:Consolas,monospace}
+#gameOverPanel .goCard{width:min(88vw,430px);padding:28px 22px;text-align:center;background:#151515;border:3px solid #f0c843;box-shadow:0 0 28px #000;color:#fff}
+#gameOverPanel h2{color:#f0c843;margin:0 0 12px;font-size:28px}
+#gameOverPanel p{margin:9px 0 18px}
+#gameOverPanel button{display:block;width:100%;margin:10px 0;padding:13px;border:2px solid #f0c843;background:#222;color:#fff;font:bold 16px Consolas,monospace;cursor:pointer}
+#gameOverPanel button:hover{background:#f0c843;color:#111}
+
+.sound-toggle{
+ position:fixed;right:12px;top:12px;z-index:10000;
+ border:2px solid #f0c843;background:#111;color:#f0c843;
+ padding:7px 10px;font:bold 11px Consolas,monospace;cursor:pointer;
+ box-shadow:2px 2px 0 #000;touch-action:manipulation
+}
+.sound-toggle:hover{background:#f0c843;color:#111}
+@media(max-width:700px){
+ .sound-toggle{top:auto;bottom:10px;right:10px;padding:8px;font-size:10px}
+}
+
+/* V12: sonido integrado a la barra inferior del arcade */
+.sound-toggle{
+ position:static !important;
+ display:inline-block !important;
+ margin-left:18px !important;
+ padding:1px 6px !important;
+ border:1px solid #f0c843 !important;
+ background:#111 !important;
+ color:#f0c843 !important;
+ box-shadow:none !important;
+ font:bold 9px Consolas,monospace !important;
+ line-height:16px !important;
+ vertical-align:middle;
+ cursor:pointer;
+}
+.sound-toggle:hover{background:#f0c843 !important;color:#111 !important}
+.controls-help{vertical-align:middle}
+@media(max-width:700px){
+ .sound-toggle{position:static !important;margin-left:8px !important;padding:1px 4px !important;font-size:8px !important}
+}
+
+/* V13 portada */
+.workers-cover{
+ position:fixed;inset:0;z-index:20000;background:#02030a;
+ display:flex;align-items:center;justify-content:center;overflow:hidden;
+ touch-action:none;user-select:none;-webkit-user-select:none
+}
+.workers-cover img{width:100%;height:100%;object-fit:contain;image-rendering:auto}
+.workers-cover-hint{
+ position:absolute;left:50%;bottom:3.5%;transform:translateX(-50%);
+ color:#ffe13b;background:#050817e6;border:2px solid #2de0ff;
+ padding:8px 14px;font:bold 12px Consolas,monospace;white-space:nowrap;
+ text-shadow:2px 2px #000
+}
+.mobile-hint{display:none}
+@media (pointer:coarse),(max-width:700px){
+ .desktop-hint{display:none}.mobile-hint{display:inline}
+ html,body{overscroll-behavior:none;touch-action:none}
+}
+@media (orientation:landscape) and (pointer:coarse){
+ body:after{
+  content:"GIRÁ EL DISPOSITIVO ↻";position:fixed;inset:0;z-index:30000;
+  display:flex;align-items:center;justify-content:center;background:#02030a;
+  color:#ffe13b;font:bold 22px Consolas,monospace;text-align:center
+ }
+}
