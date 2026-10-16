@@ -86,6 +86,7 @@ function end(who){
  let txt=who===1?'🏆 ¡TOMY GANA! 🏆':'🧸 ¡VALEN GANA! 🧸';
  fin.innerHTML=`<strong>${txt}</strong><br><br>${score1} - ${score2}<br><br><button id="rev">REVANCHA</button><button id="men">VOLVER AL MENÚ</button>`;
  fin.classList.remove('oculto');
+ if(modo===1 && who===1)window.PikyRanking?.show(score1);
  document.getElementById('rev').onclick=()=>start(modo);
  document.getElementById('men').onclick=showMenu;
 }

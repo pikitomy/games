@@ -415,7 +415,7 @@ function loop(){if(!run)return;if(!pause)update();draw();startMusic();requestAni
 function start(){
  checkpointScore=0;checkpointLevel=1;nextExtraLife=5000;intro.classList.add("hide");wrap.classList.remove("hide");reset()}
 function end(msg){
- run=false;
+ run=false;window.PikyRanking?.show(score);
  let old=document.getElementById("gameOverPanel");if(old)old.remove();
  const p=document.createElement("div");
  p.id="gameOverPanel";

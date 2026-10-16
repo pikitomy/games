@@ -69,7 +69,7 @@ for(let cp of caps){let P=POW[cp.type];x.fillStyle=P.col;x.fillRect(cp.x-13,cp.y
 x.fillStyle="#fff";x.font="17px Consolas";x.fillText("VIDAS: "+"● ".repeat(Math.min(lives,8)),15,28);x.fillText("NIVEL "+level,800,28);
 if(performance.now()<msgUntil){x.textAlign="center";x.font="bold 34px Consolas";x.fillStyle="#ffe600";x.fillText(msg,450,330);x.textAlign="left"}
 if(paused){x.fillStyle="#000b";x.fillRect(0,0,900,600);x.fillStyle="#ffe600";x.font="bold 50px Consolas";x.fillText("PAUSA",360,310)}}
-function gameOver(){running=false;if(score>high){high=score;localStorage.setItem("tomysBreakoutHigh",high);highEl.textContent=high}setTimeout(()=>{alert("GAME OVER · "+score+" puntos · Nivel "+level);showIntro()},50)}
+function gameOver(){running=false;window.PikyRanking?.show(score);if(score>high){high=score;localStorage.setItem("tomysBreakoutHigh",high);highEl.textContent=high}setTimeout(()=>{alert("GAME OVER · "+score+" puntos · Nivel "+level);showIntro()},50)}
 function showIntro(){running=false;stopMusic();wrap.classList.add("hidden");intro.classList.remove("hidden")}
 function loop(){if(!running)return;if(!paused)update();draw();requestAnimationFrame(loop)}
 function start(){intro.classList.add("hidden");wrap.classList.remove("hidden");reset();if(musicEnabled)startMusic();updateAudioButtons()}

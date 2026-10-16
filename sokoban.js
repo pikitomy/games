@@ -3,6 +3,7 @@ const portada=document.getElementById("portada"),juego=document.getElementById("
 const nombreNivel=document.getElementById("nombreNivel"),movEl=document.getElementById("movimientos"),faltanEl=document.getElementById("faltan");
 const T=48,W=16,H=12;
 let nivel=0,mapa=[],px=0,py=0,mov=0,jugando=false,pausa=false;
+let rankingTotal=0,rankingCompleted=new Set();
 
 // Sokoban clásico: cualquier objeto puede ocupar cualquier marca.
 // Los objetos sólo cambian visualmente para representar el desorden de la casa.
@@ -126,6 +127,10 @@ function contarFaltan(){let n=0;for(let r of mapa)for(let c of r)if(c=="$")n++;r
 function actualizar(){movEl.textContent=mov;faltanEl.textContent=contarFaltan()}
 function ganar(){
   jugando=false;
+  if(!rankingCompleted.has(nivel)){
+    rankingCompleted.add(nivel);
+    rankingTotal+=Math.max(100,1000-mov*5);
+  }
   cartel.innerHTML=`<strong>¡CADA COSA<br>EN SU LUGAR!</strong><br>${mov} movimientos<br><small>PRESIONÁ ESPACIO PARA CONTINUAR</small>`;
   cartel.classList.remove("oculto");
 }
@@ -133,6 +138,7 @@ function siguiente(){
   if(nivel<niveles.length-1){jugando=true;cargar(nivel+1)}
   else{
     nivel=niveles.length;
+    window.PikyRanking?.show(rankingTotal);
     cartel.innerHTML=`<strong>¡CASA ORDENADA!</strong><br>Caritolina puede descansar.<br><small>Jordan y Tomy: NO TOQUEN NADA 😂<br><br>ESPACIO PARA VOLVER A LA PORTADA</small>`;
     cartel.classList.remove("oculto");
   }
@@ -187,6 +193,7 @@ if(caritoTouch){
     portada.classList.add("oculto");
     juego.classList.remove("oculto");
     jugando=true;
+    rankingTotal=0;rankingCompleted.clear();
     cargar(0);
   }, {passive:false});
 
@@ -213,7 +220,7 @@ if(caritoTouch){
 }
 
 document.addEventListener("keydown",e=>{
- if(!portada.classList.contains("oculto")&&(e.code=="Space"||e.code=="Enter")){e.preventDefault();portada.classList.add("oculto");juego.classList.remove("oculto");jugando=true;cargar(0);return}
+ if(!portada.classList.contains("oculto")&&(e.code=="Space"||e.code=="Enter")){e.preventDefault();portada.classList.add("oculto");juego.classList.remove("oculto");jugando=true;rankingTotal=0;rankingCompleted.clear();cargar(0);return}
  if(!jugando&&portada.classList.contains("oculto")&&e.code=="Space"){e.preventDefault();if(nivel>=niveles.length){juego.classList.add("oculto");portada.classList.remove("oculto")}else siguiente();return}
  if(e.code=="Escape"){if(!portada.classList.contains("oculto")){window.location.href="index.html";return} jugando=false;juego.classList.add("oculto");portada.classList.remove("oculto");return}
  if(e.code=="KeyR"&&nivel<niveles.length){jugando=true;cargar(nivel);return}

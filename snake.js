@@ -207,6 +207,7 @@ function gameOver(d1,d2){
    overlayText.textContent=`Piky ${score1} - ${score2} Jugador 2 · nivel ${level}`;
  }
  overlay.classList.remove("hidden");
+ if(mode===1)window.PikyRanking?.show(score1);
 }
 function setDirection(player,x,y){
  if(!running)return;

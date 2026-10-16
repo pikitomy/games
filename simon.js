@@ -15,7 +15,7 @@ async function press(i){if(!running||paused||!accept)return;accept=false;await l
 
 function start(){token++;seq=[];pos=0;setRound(0);running=true;accept=false;paused=false;area.classList.remove("paused");intro.classList.add("hidden");wrap.classList.remove("hidden");statusEl.textContent="PREPARADO...";setTimeout(next,650)}
 function showIntro(){token++;running=false;accept=false;paused=false;area.classList.remove("paused");wrap.classList.add("hidden");intro.classList.remove("hidden")}
-function gameOver(){running=false;accept=false;if(round>high){high=round;localStorage.setItem("fyditoSimonHigh",high);highEl.textContent=high}setTimeout(()=>{alert("GAME OVER · Ronda "+round+" · Récord "+high);showIntro()},60)}
+function gameOver(){running=false;window.PikyRanking?.show(Math.max(0,round-1));accept=false;if(round>high){high=round;localStorage.setItem("fyditoSimonHigh",high);highEl.textContent=high}setTimeout(()=>{alert("GAME OVER · Ronda "+round+" · Récord "+high);showIntro()},60)}
 
 async function replay(){if(!running||paused)return;accept=false;pos=0;statusEl.textContent="REPETIMOS...";let t=++token,speed=tempo();await sleep(350);for(let i of seq){if(!running||paused||t!==token)return;await light(i,speed);await sleep(Math.max(80,speed*.28))}if(running&&!paused&&t===token){statusEl.textContent="¡TU TURNO!";accept=true}}
 function pause(){if(!running)return;paused=!paused;token++;area.classList.toggle("paused",paused);accept=false;if(!paused)replay()}

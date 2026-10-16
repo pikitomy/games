@@ -235,7 +235,7 @@ function hit(a,b){
 }
 
 function gameOver(){
-  running=false;
+  running=false;window.PikyRanking?.show(score);
   if(score>highScore){
     highScore=score;
     localStorage.setItem("valenHighScore",highScore);
